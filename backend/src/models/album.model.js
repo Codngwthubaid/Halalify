@@ -18,10 +18,10 @@ const albumSchema = new mongoose.Schema({
         type: Number,
         require: true
     },
-    nasheedId: [
+    nasheed: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Nasheeds'
+            ref: 'Nasheed'
         }
     ]
 }, {

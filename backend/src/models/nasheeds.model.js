@@ -31,4 +31,4 @@ const nasheedSchema = new mongoose.Schema({
         timestamps: true
     })
 
-export const Nasheeds = mongoose.model("Nasheeds", nasheedSchema)
+export const Nasheed = mongoose.model("Nasheed", nasheedSchema)
