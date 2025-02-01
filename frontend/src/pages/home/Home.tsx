@@ -1,4 +1,4 @@
-import TopBar from "@/components/Topbar"
+import TopBar from "@/components/TopBar"
 
 const Home = () => {
     return (
