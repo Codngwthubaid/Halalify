@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "seed:nasheeds": "node src/seeds/nasheeds.js",
+    "seed:albums": "node src/seeds/albums.js"
   },
   "keywords": [],
   "author": "",

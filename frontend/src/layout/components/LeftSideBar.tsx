@@ -5,11 +5,19 @@ import { HomeIcon, Library, MessageCircle } from "lucide-react"
 import { Link } from "react-router-dom"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import PlaylistSkeleton from "@/components/skeletons/PlaylistSkeletons"
-
+import { useNasheedStore } from "@/store/useNasheedsStore"
+import { useEffect } from "react"
 
 const LeftSideBar = () => {
 
-  const isLoading = true
+  const { albums, isLoading, fetchAlbums } = useNasheedStore()
+
+  useEffect(() => {
+    fetchAlbums()
+  }, [fetchAlbums])
+
+  console.log(albums);
+
 
   return (
     <div className="h-full flex flex-col gap-2 pr-2">
@@ -67,14 +75,27 @@ const LeftSideBar = () => {
           </div>
           <ScrollArea className="h-[calc(100vh-250px)]">
             <div className="space-y-2">
-              {isLoading ?
-                (
-                  <PlaylistSkeleton />
-                ) :
-                (
-                  <div>Some Nasheeds</div>
-              )
-              }
+              {isLoading ? (
+                <PlaylistSkeleton />
+              ) : (
+                (Array.isArray(albums) ? albums : []).map((album) => (
+                  <Link
+                    to={`/albums/${album._id}`}
+                    key={album._id}
+                    className="p-2 rounded-md flex items-center gap-3 hover:bg-zinc-800 group cursor-pointer"
+                  >
+                    <img
+                      className="size-12 rounded-md flex-shrink-0 object-cover"
+                      src={album.imageUrl}
+                      alt="Playlist Image"
+                    />
+                    <div className="flex-1 hidden md:block min-w-0">
+                      <p className="font-medium">{album.title}</p>
+                      <p className="text-sm text-zinc-400">{album.artist}</p>
+                    </div>
+                  </Link>
+                ))
+              )}
             </div>
           </ScrollArea>
         </div>
