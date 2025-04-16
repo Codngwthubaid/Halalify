@@ -13,6 +13,6 @@ export const requireAdmin = async (req, res, next) => {
         next()
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({ success: false, message: "Internal server error" })
+        next(error)
     }
 }
