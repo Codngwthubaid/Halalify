@@ -4,13 +4,19 @@ import { SignedIn } from "@clerk/clerk-react";
 import { Home, LibraryBigIcon, MessageCircleMoreIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useState } from "react";
 import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
-
+import { useMusicStore } from "@/stores/useMusicStore";
+import { useEffect } from "react";
 
 export default function LeftSidebar() {
 
-    const [isLoading, setIsLoading] = useState(true)
+    const { songs, albums, isLoading, error, fetchAlbums } = useMusicStore()
+
+    useEffect(() => {
+        fetchAlbums()
+    }, [fetchAlbums])
+
+    console.log("Albums fetched : ", { albums })
 
     return (
         <div className="h-full flex flex-col gap-2">
@@ -60,8 +66,6 @@ export default function LeftSidebar() {
                         )}
                     </div>
                 </ScrollArea>
-
-
             </div>
         </div>
     )
