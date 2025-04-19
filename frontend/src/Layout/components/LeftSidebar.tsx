@@ -4,9 +4,14 @@ import { SignedIn } from "@clerk/clerk-react";
 import { Home, LibraryBigIcon, MessageCircleMoreIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { useState } from "react";
+import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
 
 
 export default function LeftSidebar() {
+
+    const [isLoading, setIsLoading] = useState(true)
+
     return (
         <div className="h-full flex flex-col gap-2">
 
@@ -47,16 +52,13 @@ export default function LeftSidebar() {
                 </div>
 
                 <ScrollArea className="h-[400px] my-5 w-full ">
-                    Jokester began sneaking into the castle in the middle of the night and leaving
-                    jokes all over the place: under the king's pillow, in his soup, even in the
-                    royal toilet. The king was furious, but he couldn't seem to stop Jokester. And
-                    then, one day, the people of the kingdom discovered that the jokes left by
-                    Jokester were so funny that they couldn't help but laugh. And once they
-                    started laughing, they couldn't stop.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat architecto blanditiis quibusdam quidem, impedit cum officia facilis animi? Eligendi nemo beatae earum excepturi harum laborum commodi consequuntur reiciendis quidem nisi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat architecto blanditiis quibusdam quidem, impedit cum officia facilis animi? Eligendi nemo beatae earum excepturi harum laborum commodi consequuntur reiciendis quidem nisi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat architecto blanditiis quibusdam quidem, impedit cum officia facilis animi? Eligendi nemo beatae earum excepturi harum laborum commodi consequuntur reiciendis quidem nisi.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat architecto blanditiis quibusdam quidem, impedit cum officia facilis animi? Eligendi nemo beatae earum excepturi harum laborum commodi consequuntur reiciendis quidem nisi.
+                    <div className="space-y-2">
+                        {isLoading ? (
+                            <LoadingSkeleton />
+                        ) : (
+                            <div>album</div>
+                        )}
+                    </div>
                 </ScrollArea>
 
 
