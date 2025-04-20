@@ -7,6 +7,8 @@ interface MusicProps {
   albums: Albums[];
   isLoading: boolean;
   error: string | any;
+  currentAlbum: Albums | null;
+
   fetchAlbums: () => Promise<void>;
   fetchAlbumById: (id: string) => Promise<void>;
 }
@@ -16,6 +18,7 @@ export const useMusicStore = create<MusicProps>((set) => ({
   albums: [],
   isLoading: false,
   error: null,
+  currentAlbum: null,
 
   fetchAlbums: async () => {
     set({ isLoading: true, error: null });
@@ -31,18 +34,16 @@ export const useMusicStore = create<MusicProps>((set) => ({
       set({ isLoading: false })
     }
   },
+  
   fetchAlbumById: async (id: string) => {
     try {
       set({ isLoading: true, error: null });
       const result = await axiosInstance.get(`/albums/${id}`);
       console.log("API response for specific album:", result.data);
-      const albumData = Array.isArray(result.data) ? result.data : result.data?.albums || [];
-      set({ albums: albumData, isLoading: false });
+      set({ currentAlbum: result.data, isLoading: false });
     } catch (error: any) {
       console.error("Error fetching album by ID:", error);
-      set({ error: error.response?.data?.message || "Failed to fetch album by ID", albums: [], isLoading: false });
-    } finally {
-      set({ isLoading: false })
+      set({ error: error.response?.data?.message || "Failed to fetch album by ID", isLoading: false });
     }
   },
 }))
