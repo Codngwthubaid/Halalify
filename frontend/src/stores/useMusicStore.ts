@@ -35,7 +35,7 @@ export const useMusicStore = create<MusicProps>((set) => ({
     }
   },
 
-  fetchAlbumById: async (id: string) => {
+  fetchAlbumById: async (id) => {
     try {
       set({ isLoading: true, error: null });
       const result = await axiosInstance.get(`/albums/${id}`);
