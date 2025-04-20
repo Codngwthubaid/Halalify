@@ -34,7 +34,7 @@ export const useMusicStore = create<MusicProps>((set) => ({
       set({ isLoading: false })
     }
   },
-  
+
   fetchAlbumById: async (id: string) => {
     try {
       set({ isLoading: true, error: null });

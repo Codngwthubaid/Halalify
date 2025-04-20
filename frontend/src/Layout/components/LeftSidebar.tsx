@@ -12,13 +12,8 @@ export default function LeftSidebar() {
     const { albums, isLoading, fetchAlbums } = useMusicStore();
 
     useEffect(() => {
-        console.log("Fetching albums...");
-        fetchAlbums().then(() => {
-            console.log("Albums after fetch:", albums);
-        });
+        fetchAlbums().then(() => { console.log("Albums after fetch:", albums) })
     }, [fetchAlbums]);
-
-    console.log("Albums state:", albums);
 
     return (
         <div className="h-full flex flex-col gap-2">
