@@ -1,4 +1,4 @@
-import { Song } from "../models/song.model";
+import { Song } from "../models/song.model.js";
 
 export const createdSongs = await Song.insertMany([
     {
@@ -7,7 +7,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/7.jpg",
         audioUrl: "/songs/7.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, // 0:39
+        duration: 39, 
     },
     {
         title: "Neon Lights",
@@ -15,7 +15,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/5.jpg",
         audioUrl: "/songs/5.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 36, // 0:36
+        duration: 36, 
     },
     {
         title: "Urban Jungle",
@@ -23,7 +23,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/15.jpg",
         audioUrl: "/songs/15.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 36, // 0:36
+        duration: 36, 
     },
     {
         title: "Neon Dreams",
@@ -31,7 +31,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/13.jpg",
         audioUrl: "/songs/13.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, // 0:39
+        duration: 39, 
     },
     {
         title: "Summer Daze",
@@ -39,7 +39,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/4.jpg",
         audioUrl: "/songs/4.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 24, // 0:24
+        duration: 24, 
     },
     {
         title: "Ocean Waves",
@@ -47,7 +47,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/9.jpg",
         audioUrl: "/songs/9.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 28, // 0:28
+        duration: 28, 
     },
     {
         title: "Crystal Rain",
@@ -55,7 +55,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/16.jpg",
         audioUrl: "/songs/16.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, // 0:39
+        duration: 39, 
     },
     {
         title: "Starlight",
@@ -63,7 +63,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/10.jpg",
         audioUrl: "/songs/10.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 30, // 0:30
+        duration: 30, 
     },
     {
         title: "Stay With Me",
@@ -71,7 +71,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/1.jpg",
         audioUrl: "/songs/1.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 46, // 0:46
+        duration: 46, 
     },
     {
         title: "Midnight Drive",
@@ -79,7 +79,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/2.jpg",
         audioUrl: "/songs/2.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 41, // 0:41
+        duration: 41, 
     },
     {
         title: "Moonlight Dance",
@@ -87,7 +87,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/14.jpg",
         audioUrl: "/songs/14.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 27, // 0:27
+        duration: 27, 
     },
     {
         title: "Lost in Tokyo",
@@ -95,7 +95,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/3.jpg",
         audioUrl: "/songs/3.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 24, // 0:24
+        duration: 24, 
     },
     {
         title: "Neon Tokyo",
@@ -103,7 +103,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/17.jpg",
         audioUrl: "/songs/17.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, // 0:39
+        duration: 39, 
     },
     {
         title: "Purple Sunset",
@@ -111,7 +111,7 @@ export const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/12.jpg",
         audioUrl: "/songs/12.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 17, // 0:17
+        duration: 17, 
     },
 ]);
 

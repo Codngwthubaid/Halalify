@@ -10,7 +10,6 @@ import {
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow,
@@ -21,7 +20,8 @@ import {
 export default function AlbumPage() {
     const { albumId } = useParams();
     const { fetchAlbumById, isLoading, currentAlbum } = useMusicStore();
-    console.log(currentAlbum?.imageUrl)
+    console.log(currentAlbum)
+
     const [currentGradient, setCurrentGradient] = useState(() => {
         const randomIndex = Math.floor(Math.random() * gradientColors.length);
         return gradientColors[randomIndex];

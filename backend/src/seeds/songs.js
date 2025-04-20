@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Song } from "../models/song.model.js";
 import { config } from "dotenv";
-import songs from "../constants/songData.js"
+import { songs } from "../constants/songData.js";
 
 config();
 

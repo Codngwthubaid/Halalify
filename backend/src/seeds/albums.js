@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { Song } from "../models/song.model.js";
 import { Album } from "../models/album.model.js";
-import { config } from "dotenv";
 import { albums } from "../constants/albumData.js";
+import { config } from "dotenv";
 
 config();
 
