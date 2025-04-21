@@ -1,6 +1,6 @@
 import { axiosInstance } from "@/lib/axios"
 import { Albums, Songs } from "@/types";
-import { create } from "zustand"
+import { create } from "zustand";
 
 interface MusicProps {
   songs: Songs[];

@@ -1,8 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMusicStore } from "@/stores/useMusicStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { gradientColors } from "@/constants/index";
 import { Button } from "@/components/ui/button";
 import { Calendar1, Clock, List, Play, TouchpadIcon } from "lucide-react";
 import {
@@ -20,11 +19,7 @@ import {
 export default function AlbumPage() {
     const { albumId } = useParams();
     const { fetchAlbumById, isLoading, currentAlbum } = useMusicStore();
-    console.log("currentAlbum : ",currentAlbum);
-    const [currentGradient, setCurrentGradient] = useState(() => {
-        const randomIndex = Math.floor(Math.random() * gradientColors.length);
-        return gradientColors[randomIndex];
-    });
+    console.log("currentAlbum : ", currentAlbum);
 
     useEffect(() => { if (albumId) fetchAlbumById(albumId); }, [fetchAlbumById, albumId]);
 

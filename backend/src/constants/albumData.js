@@ -1,6 +1,6 @@
 import { Song } from "../models/song.model.js";
 
-export const createdSongs = await Song.insertMany([
+const createdSongs = await Song.insertMany([
     {
         title: "City Rain",
         artist: "Urban Echo",
@@ -116,7 +116,7 @@ export const createdSongs = await Song.insertMany([
 ]);
 
 
-export const albums = [
+const albums = [
     {
         title: "Urban Nights",
         artist: "Various Artists",
