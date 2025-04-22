@@ -1,13 +1,11 @@
-import { Song } from "../models/song.model.js";
-
-const createdSongs = await Song.insertMany([
+export const createdSongsData = [
     {
         title: "City Rain",
         artist: "Urban Echo",
         imageUrl: "/cover-images/7.jpg",
         audioUrl: "/songs/7.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, 
+        duration: 39,
     },
     {
         title: "Neon Lights",
@@ -15,7 +13,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/5.jpg",
         audioUrl: "/songs/5.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 36, 
+        duration: 36,
     },
     {
         title: "Urban Jungle",
@@ -23,7 +21,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/15.jpg",
         audioUrl: "/songs/15.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 36, 
+        duration: 36,
     },
     {
         title: "Neon Dreams",
@@ -31,7 +29,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/13.jpg",
         audioUrl: "/songs/13.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, 
+        duration: 39,
     },
     {
         title: "Summer Daze",
@@ -39,7 +37,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/4.jpg",
         audioUrl: "/songs/4.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 24, 
+        duration: 24,
     },
     {
         title: "Ocean Waves",
@@ -47,7 +45,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/9.jpg",
         audioUrl: "/songs/9.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 28, 
+        duration: 28,
     },
     {
         title: "Crystal Rain",
@@ -55,7 +53,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/16.jpg",
         audioUrl: "/songs/16.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, 
+        duration: 39,
     },
     {
         title: "Starlight",
@@ -63,7 +61,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/10.jpg",
         audioUrl: "/songs/10.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 30, 
+        duration: 30,
     },
     {
         title: "Stay With Me",
@@ -71,7 +69,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/1.jpg",
         audioUrl: "/songs/1.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 46, 
+        duration: 46,
     },
     {
         title: "Midnight Drive",
@@ -79,7 +77,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/2.jpg",
         audioUrl: "/songs/2.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 41, 
+        duration: 41,
     },
     {
         title: "Moonlight Dance",
@@ -87,7 +85,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/14.jpg",
         audioUrl: "/songs/14.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 27, 
+        duration: 27,
     },
     {
         title: "Lost in Tokyo",
@@ -95,7 +93,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/3.jpg",
         audioUrl: "/songs/3.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 24, 
+        duration: 24,
     },
     {
         title: "Neon Tokyo",
@@ -103,7 +101,7 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/17.jpg",
         audioUrl: "/songs/17.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 39, 
+        duration: 39,
     },
     {
         title: "Purple Sunset",
@@ -111,38 +109,6 @@ const createdSongs = await Song.insertMany([
         imageUrl: "/cover-images/12.jpg",
         audioUrl: "/songs/12.mp3",
         plays: Math.floor(Math.random() * 5000),
-        duration: 17, 
-    },
-]);
-
-
-const albums = [
-    {
-        title: "Urban Nights",
-        artist: "Various Artists",
-        imageUrl: "/albums/1.jpg",
-        releaseYear: 2024,
-        songs: createdSongs.slice(0, 4).map((song) => song._id),
-    },
-    {
-        title: "Coastal Dreaming",
-        artist: "Various Artists",
-        imageUrl: "/albums/2.jpg",
-        releaseYear: 2024,
-        songs: createdSongs.slice(4, 8).map((song) => song._id),
-    },
-    {
-        title: "Midnight Sessions",
-        artist: "Various Artists",
-        imageUrl: "/albums/3.jpg",
-        releaseYear: 2024,
-        songs: createdSongs.slice(8, 11).map((song) => song._id),
-    },
-    {
-        title: "Eastern Dreams",
-        artist: "Various Artists",
-        imageUrl: "/albums/4.jpg",
-        releaseYear: 2024,
-        songs: createdSongs.slice(11, 14).map((song) => song._id),
+        duration: 17,
     },
 ];
