@@ -24,7 +24,6 @@ export const useMusicStore = create<MusicProps>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const result = await axiosInstance.get("/albums");
-      console.log("API response:", result.data);
       const albumsData = Array.isArray(result.data) ? result.data : result.data?.albums || [];
       set({ albums: albumsData, isLoading: false });
     } catch (error: any) {
@@ -39,7 +38,6 @@ export const useMusicStore = create<MusicProps>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const result = await axiosInstance.get(`/albums/${id}`);
-      console.log("API response for specific album:", result.data);
       set({ currentAlbum: result.data, isLoading: false });
     } catch (error: any) {
       console.error("Error fetching album by ID:", error);

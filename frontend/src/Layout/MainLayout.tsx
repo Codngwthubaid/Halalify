@@ -6,6 +6,7 @@ import {
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import LeftSidebar from "./components/LeftSidebar"
+import FriendsActivity from "./components/RightSidebar"
 
 export default function MainLayout() {
 
@@ -23,7 +24,7 @@ export default function MainLayout() {
                 </ResizablePanel>
                 <ResizableHandle />
                 <ResizablePanel defaultSize={20} minSize={0} maxSize={25} collapsedSize={0}>
-                    Right Side
+                    <FriendsActivity />
                 </ResizablePanel>
             </ResizablePanelGroup>
         </div>

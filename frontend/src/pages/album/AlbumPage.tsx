@@ -19,11 +19,14 @@ import {
 export default function AlbumPage() {
     const { albumId } = useParams();
     const { fetchAlbumById, isLoading, currentAlbum } = useMusicStore();
-    console.log("currentAlbum : ", currentAlbum);
-
     useEffect(() => { if (albumId) fetchAlbumById(albumId); }, [fetchAlbumById, albumId]);
-
     if (isLoading) return null;
+
+    const secondsToMinutes = (seconds: number) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
+    };
 
     return (
         <div className="h-full">
@@ -46,8 +49,8 @@ export default function AlbumPage() {
                     </div>
 
                     <div className="px-6 pb-4 flex items-center gap-6">
-                        <Button className="size-16 bg-purple-700 hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out my-3">
-                            <Play className="mr-2 size-6 ml-2 text-black/80" fill="currentColor" />
+                        <Button className="size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out my-3">
+                            <Play className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
                         </Button>
                     </div>
 
@@ -62,19 +65,13 @@ export default function AlbumPage() {
                                         <List className="size-5 inline-block" />
                                     </TableHead>
                                     <TableHead className="min-w-[200px] sm:min-w-[300px]">
-                                        <div className="flex items-center gap-2">
-                                            Title <TouchpadIcon className="size-5" />
-                                        </div>
+                                        <div className="flex items-center gap-2">Title</div>
                                     </TableHead>
                                     <TableHead className="min-w-[120px] hidden sm:table-cell">
-                                        <div className="flex items-center gap-2">
-                                            Created At <Calendar1 className="size-5" />
-                                        </div>
+                                        <div className="flex items-center gap-2">Created At</div>
                                     </TableHead>
                                     <TableHead className="min-w-[100px]">
-                                        <div className="flex items-center gap-2">
-                                            Duration <Clock className="size-5" />
-                                        </div>
+                                        <div className="flex items-center gap-2"><Clock className="size-5" /></div>
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -104,7 +101,7 @@ export default function AlbumPage() {
                                         <TableCell className="text-sm hidden sm:table-cell">
                                             {song?.createdAt.split("T")[0]}
                                         </TableCell>
-                                        <TableCell className="text-sm">{song?.duration}</TableCell>
+                                        <TableCell className="text-sm">{secondsToMinutes(song?.duration)}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

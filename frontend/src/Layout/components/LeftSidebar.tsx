@@ -12,7 +12,7 @@ export default function LeftSidebar() {
     const { albums, isLoading, fetchAlbums } = useMusicStore();
 
     useEffect(() => {
-        fetchAlbums().then(() => { console.log("Albums after fetch:", albums) })
+        fetchAlbums()
     }, [fetchAlbums]);
 
     return (
