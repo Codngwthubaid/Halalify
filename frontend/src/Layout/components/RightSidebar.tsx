@@ -5,6 +5,12 @@ import { useUser } from "@clerk/clerk-react"
 import { Users } from "lucide-react"
 import { useEffect } from "react"
 
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+} from "@/components/ui/avatar"
+
 export default function FriendsActivity() {
 
     const { fetchUsers, users, isLoading, error } = useChatStore()
@@ -28,11 +34,16 @@ export default function FriendsActivity() {
                 <div className="p-4 space-y-4">
                     {users.map((user) => (
                         <div key={user._id} className="flex items-center gap-2">
-                            <img
-                                src={user.imageUrl}
-                                alt={user.name}
-                                className="w-8 h-8 rounded-full"
-                            />
+                            <div className="realative">
+                                <Avatar className="size-10">
+                                    <AvatarImage src={user.imageUrl} alt={user.name} />
+                                    <AvatarFallback>{user.fullName[0]}</AvatarFallback>
+                                </Avatar>
+                                <div
+                                    className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900 `}
+                                    aria-hidden='true'
+                                />
+                            </div>
                         </div>
                     ))}
                 </div>
