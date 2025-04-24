@@ -5,7 +5,7 @@ import { getAllSongs, getFeaturedSongs, getMadeForYouSongs, getTrendingSongs } f
 const router = Router();
 
 router.get("/", protectedRoute, requireAdmin, getAllSongs);
-router.get("/featuredSongs", getFeaturedSongs);
+router.get("/featured", getFeaturedSongs);
 router.get("/made-for-you", getMadeForYouSongs);
 router.get("/trending", getTrendingSongs);
 

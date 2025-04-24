@@ -16,7 +16,6 @@ export default function FriendsActivity() {
     const [isPlaying, setIsPlaying] = useState(true)
     const { fetchUsers, users, isLoading, error } = useChatStore()
     const { user } = useUser()
-    console.log(users)
 
     useEffect(() => { if (user) fetchUsers() }, [fetchUsers, user])
 
