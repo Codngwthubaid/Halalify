@@ -9,7 +9,7 @@ export const HomePage = () => {
 
   const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, featuredSongs, madeForYouSongs, trendingSongs } = useMusicStore()
 
-  // useEffect(() => { fetchFeaturedSongs(); fetchMadeForYouSongs(); fetchTrendingSongs() }, [isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs])
+  useEffect(() => { fetchFeaturedSongs(); fetchMadeForYouSongs(); fetchTrendingSongs() }, [ fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs])
 
   console.log({ madeForYouSongs, featuredSongs, trendingSongs })
   return (

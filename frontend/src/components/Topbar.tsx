@@ -11,7 +11,7 @@ export default function Topbar() {
     const { isAdmin } = useAuthStore()
     console.log("isAdmin", isAdmin)
     return (
-        <div className="flex justify-between items-center p-4 sticky bg-zinc-900/75 z-10">
+        <div className="flex justify-between items-center p-4 sticky bg-zinc-900/75 z-10 rounded-md">
             <div className="flex items-center gap-2">
                 <img src={Logo} alt="Logo" className="size-10 rounded-xl px-1 cursor-pointer hover:bg-purple-600 bg-purple-500" />
             </div>
