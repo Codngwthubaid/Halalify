@@ -23,7 +23,7 @@ export default function MainLayout() {
                     <Outlet />
                 </ResizablePanel>
                 <ResizableHandle />
-                <ResizablePanel defaultSize={20} minSize={0} maxSize={25} collapsedSize={0}>
+                <ResizablePanel defaultSize={25} minSize={0} maxSize={30} collapsedSize={0}>
                     <FriendsActivity />
                 </ResizablePanel>
             </ResizablePanelGroup>
