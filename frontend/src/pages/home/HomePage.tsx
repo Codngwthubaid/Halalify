@@ -16,7 +16,7 @@ export const HomePage = () => {
     <div className="p-3">
       <Topbar />
 
-      <ScrollArea className="h-[calc(100vh-4rem)] overflow-auto">
+      <ScrollArea className="h-[calc(100vh-150px)] overflow-auto hideScollbar">
 
         <div>
           <h1 className="text-2xl font-bold my-4 sm:text-3xl">Good Afternoon</h1>
@@ -25,7 +25,7 @@ export const HomePage = () => {
 
         <div className="space-y-4">
           <GridSelectionLayoutForSongs title="Made for you" songs={madeForYouSongs} isLoading={isLoading} />
-          <GridSelectionLayoutForSongs title="Trending" songs={madeForYouSongs} isLoading={isLoading} />
+          <GridSelectionLayoutForSongs title="Trending" songs={featuredSongs} isLoading={isLoading} />
         </div>
       </ScrollArea>
 
