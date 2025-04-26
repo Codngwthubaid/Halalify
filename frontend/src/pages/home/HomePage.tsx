@@ -8,7 +8,9 @@ import GridSelectionLayoutForSongs from "./components/gridSelectionLayoutForSong
 export const HomePage = () => {
 
   const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, featuredSongs, madeForYouSongs, trendingSongs } = useMusicStore()
-
+  console.log("trending songs :", trendingSongs)
+  console.log("madeForYou songs :", madeForYouSongs)
+  console.log("featured songs :", featuredSongs)
   useEffect(() => { fetchFeaturedSongs(); fetchMadeForYouSongs(); fetchTrendingSongs() }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs])
 
   console.log({ madeForYouSongs, featuredSongs, trendingSongs })
@@ -25,7 +27,7 @@ export const HomePage = () => {
 
         <div className="space-y-4">
           <GridSelectionLayoutForSongs title="Made for you" songs={madeForYouSongs} isLoading={isLoading} />
-          <GridSelectionLayoutForSongs title="Trending" songs={featuredSongs} isLoading={isLoading} />
+          <GridSelectionLayoutForSongs title="Trending" songs={trendingSongs} isLoading={isLoading} />
         </div>
       </ScrollArea>
 

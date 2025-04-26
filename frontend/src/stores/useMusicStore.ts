@@ -86,8 +86,9 @@ export const useMusicStore = create<MusicProps>((set) => ({
     set({ isLoading: true, error: null })
     try {
       const response = await axiosInstance.get("/songs/trending");
-      console.log("Fetched trending songs:", response.data);
-      set({ trendingSongs: response.data, isLoading: false });
+      const songsData = Array.isArray(response.data) ? response.data : response.data?.songs || [];
+      console.log("Fetched trending songs:", songsData);
+      set({ trendingSongs: songsData, isLoading: false });
     } catch (error: any) {
       set({ error: error.response?.data?.message || "Failed to fetch trending songs", isLoading: false })
     } finally {
