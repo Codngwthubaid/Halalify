@@ -7,6 +7,7 @@ import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import LeftSidebar from "./components/LeftSidebar"
 import FriendsActivity from "./components/RightSidebar"
+import AudioPlayer from "./components/AudioPlayer"
 
 export default function MainLayout() {
 
@@ -15,6 +16,7 @@ export default function MainLayout() {
     return (
         <div className="h-screen w-full flex justify-center items-center">
             <ResizablePanelGroup direction="horizontal">
+                <AudioPlayer />
                 <ResizablePanel defaultSize={20} maxSize={25} minSize={isMobile ? 0 : 15}>
                     <LeftSidebar />
                 </ResizablePanel>

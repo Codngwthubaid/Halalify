@@ -1,9 +1,10 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMusicStore } from "@/stores/useMusicStore";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar1, Clock, List, Play, TouchpadIcon } from "lucide-react";
+import { Clock, List, Music, Play } from "lucide-react";
 import {
     Table,
     TableBody,
@@ -19,14 +20,22 @@ import {
 export default function AlbumPage() {
     const { albumId } = useParams();
     const { fetchAlbumById, isLoading, currentAlbum } = useMusicStore();
-    useEffect(() => { if (albumId) fetchAlbumById(albumId); }, [fetchAlbumById, albumId]);
-    if (isLoading) return null;
+    const { currentSong, playAlbum, isPlaying } = usePlayerStore()
 
     const secondsToMinutes = (seconds: number) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
     };
+
+    const handlePlayAlbum = (index: number) => {
+        if (!currentAlbum) return
+        playAlbum(currentAlbum?.songs, index)
+    }
+
+    useEffect(() => { if (albumId) fetchAlbumById(albumId) }, [fetchAlbumById, albumId]);
+    if (isLoading) return null;
+
 
     return (
         <div className="h-full">
@@ -49,7 +58,7 @@ export default function AlbumPage() {
                     </div>
 
                     <div className="px-6 pb-4 flex items-center gap-6">
-                        <Button className="size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out my-3">
+                        <Button className="size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out">
                             <Play className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
                         </Button>
                     </div>
@@ -76,34 +85,46 @@ export default function AlbumPage() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {currentAlbum?.songs.map((song, index) => (
-                                    <TableRow
-                                        key={index}
-                                        className="transition-colors group cursor-pointer"
-                                    >
-                                        <TableCell className="text-center">
-                                            <div className="flex items-center justify-center gap-2">
-                                                <span className="group-hover:hidden text-sm">{index + 1}</span>
-                                                <Play className="hidden group-hover:block size-5 border border-gray-300 rounded-full p-1" fill="currentColor" />
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="py-2">
-                                            <div className="flex items-center gap-3">
-                                                <img
-                                                    src={song?.imageUrl}
-                                                    alt={song?.title}
-                                                    className="w-10 h-10 object-cover rounded-sm"
-                                                    loading="lazy"
-                                                />
-                                                <span className="text-sm font-medium truncate">{song?.title}</span>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className="text-sm hidden sm:table-cell">
-                                            {song?.createdAt.split("T")[0]}
-                                        </TableCell>
-                                        <TableCell className="text-sm">{secondsToMinutes(song?.duration)}</TableCell>
-                                    </TableRow>
-                                ))}
+                                {currentAlbum?.songs.map((song, index) => {
+                                    const currentSongId = currentSong?._id === song._id
+                                    return (
+                                        <TableRow
+                                            key={index}
+                                            onClick={() => handlePlayAlbum(index)}
+                                            className="transition-colors group cursor-pointer"
+                                        >
+                                            <TableCell className="text-center">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    {currentSongId && isPlaying ? (
+                                                        <Music className="size-5 text-purple-700" />
+                                                    ) : (
+                                                        <span className="group-hover:hidden text-sm">{index + 1}</span>
+                                                    )}
+                                                    {
+                                                        !currentSongId && (
+                                                            <Play className="hidden group-hover:block size-5 border border-gray-300 rounded-full p-1" fill="currentColor" />
+                                                        )
+                                                    }
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="py-2">
+                                                <div className="flex items-center gap-3">
+                                                    <img
+                                                        src={song?.imageUrl}
+                                                        alt={song?.title}
+                                                        className="w-10 h-10 object-cover rounded-sm"
+                                                        loading="lazy"
+                                                    />
+                                                    <span className="text-sm font-medium truncate">{song?.title}</span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell className="text-sm hidden sm:table-cell">
+                                                {song?.createdAt.split("T")[0]}
+                                            </TableCell>
+                                            <TableCell className="text-sm">{secondsToMinutes(song?.duration)}</TableCell>
+                                        </TableRow>
+                                    )
+                                })}
                             </TableBody>
                         </Table>
                     </div>
