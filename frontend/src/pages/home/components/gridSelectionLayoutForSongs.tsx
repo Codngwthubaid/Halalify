@@ -1,6 +1,7 @@
 import GridSelectionLayoutSkeletonForSongs from "@/components/skeletons/gridSelectionLayoutSkeletonForSongs";
 import { Button } from "@/components/ui/button";
 import { Songs } from "@/types";
+import PlayButton from "./playButton";
 
 type GridSelectionLayoutProps = {
     title: string;
@@ -40,7 +41,9 @@ export default function GridSelectionLayoutForSongs({ title, isLoading, songs = 
                                         className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
                                     />
                                 </div>
-                                {/* <PlayButton /> */}
+                                <div className="absolute right-2 bottom-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <PlayButton song={song} />
+                                </div>
                             </div>
                             <h3 className='font-medium mb-2 truncate'>{song.title}</h3>
                             <p className='text-sm text-zinc-400 truncate'>{song.artist}</p>
