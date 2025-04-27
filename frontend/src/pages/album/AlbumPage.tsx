@@ -4,7 +4,7 @@ import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Clock, List, Music, Play } from "lucide-react";
+import { Clock, List, Music, Pause, Play } from "lucide-react";
 import {
     Table,
     TableBody,
@@ -20,7 +20,7 @@ import {
 export default function AlbumPage() {
     const { albumId } = useParams();
     const { fetchAlbumById, isLoading, currentAlbum } = useMusicStore();
-    const { currentSong, playAlbum, isPlaying } = usePlayerStore()
+    const { currentSong, playAlbum, isPlaying, togglePlay } = usePlayerStore()
 
     const secondsToMinutes = (seconds: number) => {
         const minutes = Math.floor(seconds / 60);
@@ -28,10 +28,18 @@ export default function AlbumPage() {
         return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
     };
 
-    const handlePlayAlbum = (index: number) => {
+    const handlePlaySong = (index: number) => {
         if (!currentAlbum) return
         playAlbum(currentAlbum?.songs, index)
     }
+
+    const handlePlayAlbum = () => {
+        if (!currentAlbum) return
+        const isCurrentAlbumPlaying = currentAlbum?.songs.some((song) => song._id === currentSong?._id)
+        if (isCurrentAlbumPlaying) togglePlay()
+        else playAlbum(currentAlbum?.songs, 0)
+    }
+
 
     useEffect(() => { if (albumId) fetchAlbumById(albumId) }, [fetchAlbumById, albumId]);
     if (isLoading) return null;
@@ -58,8 +66,12 @@ export default function AlbumPage() {
                     </div>
 
                     <div className="px-6 pb-4 flex items-center gap-6">
-                        <Button className="size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out">
-                            <Play className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
+                        <Button className="size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out" onClick={handlePlayAlbum}>
+                            {isPlaying && currentAlbum?.songs.some((song) => song._id === currentSong?._id) ? (
+                                <Pause className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
+                            ) : (
+                                <Play className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
+                            )}
                         </Button>
                     </div>
 
@@ -90,7 +102,7 @@ export default function AlbumPage() {
                                     return (
                                         <TableRow
                                             key={index}
-                                            onClick={() => handlePlayAlbum(index)}
+                                            onClick={() => handlePlaySong(index)}
                                             className="transition-colors group cursor-pointer"
                                         >
                                             <TableCell className="text-center">
