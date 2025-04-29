@@ -7,13 +7,8 @@ import GridSelectionLayoutForSongs from "./components/gridSelectionLayoutForSong
 
 export const HomePage = () => {
 
-  const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, featuredSongs, madeForYouSongs, trendingSongs } = useMusicStore()
-  console.log("trending songs :", trendingSongs)
-  console.log("madeForYou songs :", madeForYouSongs)
-  console.log("featured songs :", featuredSongs)
+  const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, madeForYouSongs, trendingSongs } = useMusicStore()
   useEffect(() => { fetchFeaturedSongs(); fetchMadeForYouSongs(); fetchTrendingSongs() }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs])
-
-  console.log({ madeForYouSongs, featuredSongs, trendingSongs })
   return (
     <div className="p-3">
       <Topbar />

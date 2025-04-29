@@ -4,7 +4,6 @@ import PlayButton from "./playButton"
 
 export default function FeaturedSongs() {
     const { isLoading, error, featuredSongs } = useMusicStore()
-    console.log("featuredSongs", featuredSongs)
     if (isLoading) return <FeaturedSkeleton />
     if (error) return <div className="text-red-500">{error}</div>
 

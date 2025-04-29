@@ -59,7 +59,6 @@ export const useMusicStore = create<MusicProps>((set) => ({
     try {
       const response = await axiosInstance.get("/songs/made-for-you");
       const songsData = Array.isArray(response.data) ? response.data : response.data?.songs || [];
-      console.log("Fetched made for you songs:", songsData);
       set({ madeForYouSongs: songsData, isLoading: false });
     } catch (error: any) {
       set({ error: error.response?.data?.message || "Failed to fetch made for you songs", isLoading: false });
@@ -73,7 +72,6 @@ export const useMusicStore = create<MusicProps>((set) => ({
     try {
       const response = await axiosInstance.get("/songs/featured");
       const songsData = Array.isArray(response.data) ? response.data : response.data?.songs || [];
-      console.log("Fetched featured songs:", songsData);
       set({ featuredSongs: songsData, isLoading: false });
     } catch (error: any) {
       set({ error: error.response.data?.message || "Failed to fetch featured songs", isLoading: false })
@@ -87,7 +85,6 @@ export const useMusicStore = create<MusicProps>((set) => ({
     try {
       const response = await axiosInstance.get("/songs/trending");
       const songsData = Array.isArray(response.data) ? response.data : response.data?.songs || [];
-      console.log("Fetched trending songs:", songsData);
       set({ trendingSongs: songsData, isLoading: false });
     } catch (error: any) {
       set({ error: error.response?.data?.message || "Failed to fetch trending songs", isLoading: false })

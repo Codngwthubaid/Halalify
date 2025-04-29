@@ -11,8 +11,6 @@ type GridSelectionLayoutProps = {
 
 export default function GridSelectionLayoutForSongs({ title, isLoading, songs = [] }: GridSelectionLayoutProps) {
     if (isLoading) return <GridSelectionLayoutSkeletonForSongs />;
-
-    console.log("songs", songs, "isArray:", Array.isArray(songs));
     const songsArray = Array.isArray(songs) ? songs : [];
 
     return (

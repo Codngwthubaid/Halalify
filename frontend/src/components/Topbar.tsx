@@ -9,7 +9,6 @@ import { buttonVariants } from "./ui/button";
 
 export default function Topbar() {
     const { isAdmin } = useAuthStore()
-    console.log("isAdmin", isAdmin)
     return (
         <div className="flex justify-between items-center p-4 sticky bg-zinc-900/75 z-10 rounded-md">
             <div className="flex items-center gap-2">

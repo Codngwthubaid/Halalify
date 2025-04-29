@@ -8,13 +8,14 @@ import { Outlet } from "react-router-dom"
 import LeftSidebar from "./components/LeftSidebar"
 import FriendsActivity from "./components/RightSidebar"
 import AudioPlayer from "./components/AudioPlayer"
+import PlayControls from "./components/PlayControls"
 
 export default function MainLayout() {
 
     const [isMobile, setIsMobile] = useState(false)
 
     return (
-        <div className="h-screen w-full flex justify-center items-center">
+        <div className="h-screen w-full flex justify-center items-center flex-col">
             <ResizablePanelGroup direction="horizontal">
                 <AudioPlayer />
                 <ResizablePanel defaultSize={20} maxSize={25} minSize={isMobile ? 0 : 15}>
@@ -29,6 +30,8 @@ export default function MainLayout() {
                     <FriendsActivity />
                 </ResizablePanel>
             </ResizablePanelGroup>
+
+            <PlayControls />
         </div>
     )
 }
