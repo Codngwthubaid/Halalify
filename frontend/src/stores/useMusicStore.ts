@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axios"
-import { Albums, Songs } from "@/types";
+import { Albums, Songs, Stats } from "@/types";
 import { create } from "zustand";
 
 interface MusicProps {
@@ -11,7 +11,10 @@ interface MusicProps {
   madeForYouSongs: Songs[];
   featuredSongs: Songs[];
   trendingSongs: Songs[];
+  stats: Stats;
 
+  fetchSongs: () => Promise<void>;
+  fetchStats: () => Promise<void>;
   fetchAlbums: () => Promise<void>;
   fetchAlbumById: (id: string) => Promise<void>;
   fetchMadeForYouSongs: () => Promise<void>;
@@ -28,6 +31,12 @@ export const useMusicStore = create<MusicProps>((set) => ({
   madeForYouSongs: [],
   featuredSongs: [],
   trendingSongs: [],
+  stats: {
+    totalAlbums: 0,
+    totalSongs: 0,
+    totalUsers: 0,
+    uniqueArtists: 0
+  },
 
   fetchAlbums: async () => {
     set({ isLoading: true, error: null });
@@ -92,5 +101,35 @@ export const useMusicStore = create<MusicProps>((set) => ({
       set({ isLoading: false })
     }
   },
+
+  fetchStats: async () => {
+    try {
+      set({ isLoading: true, error: null })
+      const response = await axiosInstance.get("/stats");
+      const statsData = Array.isArray(response.data) ? response.data : response.data?.stats || [];
+      set({ stats: statsData, isLoading: false })
+
+    } catch (error: any) {
+      console.log(error)
+      set({ error: error.response?.data?.message || "Failed to fetch stats" })
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  fetchSongs: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const result = await axiosInstance.get("/songs");
+      const songsData = Array.isArray(result.data) ? result.data : result.data?.songs || [];
+      set({ songs: songsData, isLoading: false });
+    } catch (error: any) {
+      console.error("Error fetching songs:", error);
+      set({ error: error.response?.data?.message || "Failed to fetch songs", songs: [], isLoading: false });
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
 
 }))
