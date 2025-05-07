@@ -53,7 +53,6 @@ export default function PlayControls() {
     return (
         <footer className='h-20 sm:h-24 bg-zinc-900 border-t w-full border-zinc-800 px-4'>
             <div className='flex justify-between items-center h-full mx-auto'>
-                {/* currently playing song */}
                 <div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%]'>
                     {currentSong && (
                         <>
@@ -74,13 +73,12 @@ export default function PlayControls() {
                     )}
                 </div>
 
-                {/* player controls*/}
                 <div className='flex flex-col items-center gap-2 flex-1 max-w-full sm:max-w-[45%]'>
                     <div className='flex items-center gap-4 sm:gap-6'>
                         <Button
                             size='icon'
                             variant='ghost'
-                            className='hidden sm:inline-flex hover:text-white text-zinc-400'
+                            className='hidden sm:inline-flex hover:text-white text-zinc-400 cursor-pointer'
                         >
                             <Shuffle className='h-4 w-4' />
                         </Button>
@@ -88,7 +86,7 @@ export default function PlayControls() {
                         <Button
                             size='icon'
                             variant='ghost'
-                            className='hover:text-white text-zinc-400'
+                            className='hover:text-white text-zinc-400 cursor-pointer'
                             onClick={playPrevious}
                             disabled={!currentSong}
                         >
@@ -97,7 +95,7 @@ export default function PlayControls() {
 
                         <Button
                             size='icon'
-                            className='bg-white hover:bg-white/80 text-black rounded-full h-8 w-8'
+                            className='bg-white hover:bg-white/80 text-black rounded-full h-8 w-8 cursor-pointer'
                             onClick={togglePlay}
                             disabled={!currentSong}
                         >
@@ -106,7 +104,7 @@ export default function PlayControls() {
                         <Button
                             size='icon'
                             variant='ghost'
-                            className='hover:text-white text-zinc-400'
+                            className='hover:text-white text-zinc-400 cursor-pointer'
                             onClick={playNext}
                             disabled={!currentSong}
                         >
@@ -115,7 +113,7 @@ export default function PlayControls() {
                         <Button
                             size='icon'
                             variant='ghost'
-                            className='hidden sm:inline-flex hover:text-white text-zinc-400'
+                            className='hidden sm:inline-flex hover:text-white text-zinc-400 cursor-pointer'
                         >
                             <Repeat className='h-4 w-4' />
                         </Button>
@@ -135,18 +133,18 @@ export default function PlayControls() {
                 </div>
                 {/* volume controls */}
                 <div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
-                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
                         <Mic2 className='h-4 w-4' />
                     </Button>
-                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
                         <ListMusic className='h-4 w-4' />
                     </Button>
-                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
                         <Laptop2 className='h-4 w-4' />
                     </Button>
 
                     <div className='flex items-center gap-2'>
-                        <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400'>
+                        <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
                             <Volume1 className='h-4 w-4' />
                         </Button>
 

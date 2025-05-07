@@ -4,11 +4,21 @@ import { useEffect } from "react"
 import FeaturedSongs from "./components/freaturedSongs"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import GridSelectionLayoutForSongs from "./components/gridSelectionLayoutForSongs"
+import { usePlayerStore } from "@/stores/usePlayerStore"
 
 export const HomePage = () => {
 
-  const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, madeForYouSongs, trendingSongs } = useMusicStore()
+  const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, madeForYouSongs, trendingSongs, featuredSongs } = useMusicStore()
+  const { initQueue } = usePlayerStore()
+
   useEffect(() => { fetchFeaturedSongs(); fetchMadeForYouSongs(); fetchTrendingSongs() }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs])
+  useEffect(() => {
+    if (madeForYouSongs.length > 0 && trendingSongs.length > 0 && featuredSongs.length > 0) {
+      const allSongs = [...madeForYouSongs, ...trendingSongs, ...featuredSongs]
+      initQueue(allSongs)
+    }
+  }, [initQueue, madeForYouSongs, trendingSongs, FeaturedSongs])
+
   return (
     <div className="p-3">
       <Topbar />
