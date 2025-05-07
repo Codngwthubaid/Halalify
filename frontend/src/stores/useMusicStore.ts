@@ -20,6 +20,8 @@ interface MusicProps {
   fetchMadeForYouSongs: () => Promise<void>;
   fetchFeaturedSongs: () => Promise<void>;
   fetchTrendingSongs: () => Promise<void>;
+  deleteSong: (id: string) => Promise<void>;
+  deleteAlbum: (id: string) => Promise<void>;
 }
 
 export const useMusicStore = create<MusicProps>((set) => ({
@@ -126,6 +128,30 @@ export const useMusicStore = create<MusicProps>((set) => ({
     } catch (error: any) {
       console.error("Error fetching songs:", error);
       set({ error: error.response?.data?.message || "Failed to fetch songs", songs: [], isLoading: false });
+    } finally {
+      set({ isLoading: false })
+    }
+  },
+
+  deleteSong: async (id) => {
+    try {
+      set({ isLoading: true, error: null });
+      await axiosInstance.delete(`/songs/${id}`);
+      set({ isLoading: false });
+    } catch (error: any) {
+      console.error("Error deleting song:", error);
+      set({ error: error.response?.data?.message || "Failed to delete song", isLoading: false });
+    }
+  },
+
+  deleteAlbum: async (id) => {
+    try {
+      set({ isLoading: true, error: null })
+      await axiosInstance.delete(`/albums/${id}`)
+      set({ isLoading: false })
+    } catch (error: any) {
+      console.log("Error deleting album:", error)
+      set({ error: error.response?.data?.message || "Failed to delete album", isLoading: false })
     } finally {
       set({ isLoading: false })
     }

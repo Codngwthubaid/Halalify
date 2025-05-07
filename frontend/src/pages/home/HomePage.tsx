@@ -6,7 +6,7 @@ import { ScrollArea } from "@radix-ui/react-scroll-area"
 import GridSelectionLayoutForSongs from "./components/gridSelectionLayoutForSongs"
 import { usePlayerStore } from "@/stores/usePlayerStore"
 
-export const HomePage = () => {
+export default function HomePage() {
 
   const { isLoading, fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs, madeForYouSongs, trendingSongs, featuredSongs } = useMusicStore()
   const { initQueue } = usePlayerStore()
