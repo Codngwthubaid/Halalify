@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Album, Music } from "lucide-react"
 import { useEffect } from "react"
 import { useMusicStore } from "@/stores/useMusicStore"
+import SongsTable from "./SongsTable"
 
 export default function DataDetails() {
 
@@ -29,7 +30,7 @@ export default function DataDetails() {
                 </TabsTrigger>
             </TabsList>
             <TabsContent value="songs">
-
+                <SongsTable />
             </TabsContent>
             <TabsContent value="albums">Change your password here.</TabsContent>
         </Tabs>
