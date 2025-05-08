@@ -1,33 +1,15 @@
-import { useAuthStore } from "@/stores/useAuthStore";
-import Header from "./components/Header";
-import DashboardStats from "./components/DashboardStats";
-import { Album, Music } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SongsTabContent from "./components/SongsTabContent";
+import DashboardStats from "./components/DashboardStats";
+import Header from "./components/Header";
+import { Album, Music } from "lucide-react";
 import AlbumsTabContent from "./components/AlbumsTabContent";
-import { useEffect } from "react";
-import { useMusicStore } from "@/stores/useMusicStore";
+import SongsTabContent from "./components/SongsTabContent";
 
 export default function AdminPage() {
-    const { isAdmin, isLoading } = useAuthStore();
-
-    const { fetchAlbums, fetchSongs, fetchStats } = useMusicStore();
-
-    useEffect(() => {
-        fetchAlbums();
-        fetchSongs();
-        fetchStats();
-    }, [fetchAlbums, fetchSongs, fetchStats]);
-
-    if (!isAdmin && !isLoading) return <div>Unauthorized</div>;
-
     return (
         <div
-            className='min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-900
-   to-black text-zinc-100 p-8'
-        >
+            className='min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-900 to-black text-zinc-100 p-8'>
             <Header />
-
             <DashboardStats />
 
             <Tabs defaultValue='songs' className='space-y-6'>
@@ -50,5 +32,5 @@ export default function AdminPage() {
                 </TabsContent>
             </Tabs>
         </div>
-    );
-};
+    )
+}
