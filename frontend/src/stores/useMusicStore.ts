@@ -1,5 +1,7 @@
 import { axiosInstance } from "@/lib/axios"
 import { Albums, Songs, Stats } from "@/types";
+import { Album } from "lucide-react";
+import { toast } from "sonner";
 import { create } from "zustand";
 
 interface MusicProps {
@@ -108,9 +110,8 @@ export const useMusicStore = create<MusicProps>((set) => ({
     try {
       set({ isLoading: true, error: null })
       const response = await axiosInstance.get("/stats");
-      const statsData = Array.isArray(response.data) ? response.data : response.data?.stats || [];
-      set({ stats: statsData, isLoading: false })
-
+      console.log("Response of Stats :", response.data)
+      set({ stats: response.data, isLoading: false })
     } catch (error: any) {
       console.log(error)
       set({ error: error.response?.data?.message || "Failed to fetch stats" })
@@ -136,26 +137,37 @@ export const useMusicStore = create<MusicProps>((set) => ({
   deleteSong: async (id) => {
     try {
       set({ isLoading: true, error: null });
-      await axiosInstance.delete(`/songs/${id}`);
-      set({ isLoading: false });
+      await axiosInstance.delete(`/admin/songs/${id}`);
+      set(state => ({ songs: state.songs.filter(song => song._id !== id), isLoading: false }));
+      toast.success("Song deleted successfully")
     } catch (error: any) {
       console.error("Error deleting song:", error);
-      set({ error: error.response?.data?.message || "Failed to delete song", isLoading: false });
+      set({ error: error.response?.data?.message + "Failed to delete song", isLoading: false });
+      toast.error(error.response?.data?.message || "Failed to delete song")
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   deleteAlbum: async (id) => {
     try {
       set({ isLoading: true, error: null })
-      await axiosInstance.delete(`/albums/${id}`)
-      set({ isLoading: false })
+      await axiosInstance.delete(`/admin/albums/${id}`)
+      set((state) =>
+      ({
+        albums: state.albums.filter(album => album._id !== id),
+        songs: state.songs.map((song) => song.albumId === state.albums.find((album) => album._id === id)?.title ? { ...song, album: null } : song
+        ),
+        isLoading: false
+      }))
+      toast.success("Album deleted successfully")
     } catch (error: any) {
       console.log("Error deleting album:", error)
-      set({ error: error.response?.data?.message || "Failed to delete album", isLoading: false })
+      set({ error: error.response?.data?.message + "Failed to delete album", isLoading: false })
+      toast.error(error.response?.data?.message || "Failed to delete album")
     } finally {
       set({ isLoading: false })
     }
   },
-
 
 }))
