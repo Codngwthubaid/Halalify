@@ -12,12 +12,19 @@ import authRoutes from './routes/auth.route.js'
 import songsRoutes from './routes/songs.route.js'
 import albumsRoutes from './routes/albums.route.js'
 import statsRoutes from './routes/stats.route.js'
+import { createServer } from 'http'
+import { initSocketServer } from './lib/socket_io.js'
 
 dotenv.config()
 
 const __dirname = path.resolve()
 const app = express()
 const PORT = process.env.PORT
+
+
+const httpServer = createServer(app)
+initSocketServer(httpServer)
+
 
 app.use(cors({
   origin: process.env.CLIENT_URL,
@@ -50,9 +57,7 @@ app.use((error, req, res, next) => {
 })
 
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log('Server is running on port - http://localhost:' + PORT)
   connectDB()
 })
-
-// todo: socket.io
