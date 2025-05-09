@@ -57,7 +57,7 @@ export default function AddSongDialog() {
             formData.append("duration", newSong.duration.toString())
 
             if (newSong.album && newSong.album !== "none") {
-                formData.append("album", newSong.album)
+                formData.append("albumId", newSong.album)
             }
             formData.append("imageFile", newFile.image!)
             formData.append("audioFile", newFile.audio!)

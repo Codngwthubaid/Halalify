@@ -22,11 +22,11 @@ export const createSong = async (req, res, next) => {
         const imageFile = req.files.imageFile
         const audioUrl = await uploadToCloudinary(audioFile)
         const imageUrl = await uploadToCloudinary(imageFile)
-        const song = new Song({ title, artist, duration, audioUrl, imageUrl, albumId: albumId ? albumId : null })
+        const song = new Song({ title, artist, duration, audioUrl, imageUrl, albumId: albumId || null })
         await song.save();
 
         if (albumId) await Album.findByIdAndUpdate(albumId, { $push: { songs: song._id } });
-        res.status(201).json({ success: true, message: "Song created successfully" })
+        res.status(201).json({ success: true, message: "Song created successfully", song })
 
     } catch (error) {
         console.log("Error present in create song route", error.message)
@@ -55,7 +55,7 @@ export const createAlbum = async (req, res, next) => {
         const imageUrl = await uploadToCloudinary(imageFile)
         const album = new Album({ title, artist, releaseYear, imageUrl })
         await album.save()
-        res.status(201).json({ success: true, message: "Album created successfully" }, album)
+        res.status(201).json({ success: true, message: "Album created successfully", album })
 
     } catch (error) {
         console.log("Error present in create album route", error.message)
