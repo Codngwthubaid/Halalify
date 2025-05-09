@@ -39,3 +39,9 @@ export interface NewSong {
     duration: number,
     album: string | null
 }
+
+export interface NewAlbum {
+    title : string,
+    artist : string,
+    releaseYear : number
+}

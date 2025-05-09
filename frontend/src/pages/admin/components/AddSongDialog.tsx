@@ -87,6 +87,14 @@ export default function AddSongDialog() {
     }
 
 
+    const isFormInComplete =
+        !newSong.title.trim() ||
+        !newSong.artist.trim() ||
+        !newSong.duration ||
+        !newFile.image ||
+        !newFile.audio
+
+
     return (
         <Dialog open={songDialogBoxOpen} onOpenChange={setSongDialogBoxOpen}>
             <DialogTrigger className=" bg-purple-500 hover:bg-purple-600 flex items-center p-2 rounded-lg cursor-pointer">
@@ -209,12 +217,14 @@ export default function AddSongDialog() {
                                 variant={"destructive"}
                                 onClick={() => setSongDialogBoxOpen(false)}
                                 disabled={isLoading}
+                                className="cursor-pointer"
                             >
                                 Cancel
                             </Button>
                             <Button
                                 onClick={handleSubmit}
-                                disabled={isLoading}
+                                disabled={isFormInComplete || isLoading}
+                                className="cursor-pointer"
                             >
                                 {
                                     isLoading ? (
