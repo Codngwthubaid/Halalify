@@ -1,6 +1,5 @@
 import { axiosInstance } from "@/lib/axios"
 import { Albums, Songs, Stats } from "@/types";
-import { Album } from "lucide-react";
 import { toast } from "sonner";
 import { create } from "zustand";
 
@@ -110,7 +109,6 @@ export const useMusicStore = create<MusicProps>((set) => ({
     try {
       set({ isLoading: true, error: null })
       const response = await axiosInstance.get("/stats");
-      console.log("Response of Stats :", response.data)
       set({ stats: response.data, isLoading: false })
     } catch (error: any) {
       console.log(error)

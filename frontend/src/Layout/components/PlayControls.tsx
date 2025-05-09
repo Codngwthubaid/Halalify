@@ -43,7 +43,6 @@ export default function PlayControls() {
         if (audioRef.current) return audioRef.current.currentTime = value[0]
     }
 
-
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60)
         const seconds = Math.floor(time % 60)

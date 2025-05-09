@@ -26,3 +26,16 @@ export interface Stats {
     totalUsers: number;
     uniqueArtists: number;
 }
+
+
+export interface NewFile {
+    image: File | null,
+    audio: File | null
+}
+
+export interface NewSong {
+    title: string,
+    artist: string,
+    duration: number,
+    album: string | null
+}
