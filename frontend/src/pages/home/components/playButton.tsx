@@ -13,7 +13,6 @@ export default function PlayButton({ song }: { song: Songs }) {
         else setCurrentSong(song)
     }
 
-
     return (
         isPlaying && isCurrentSong ? (
             <Button className="bg-purple-500 hover:bg-purple-600 cursor-pointer" onClick={handlePlay}>

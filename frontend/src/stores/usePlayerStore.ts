@@ -17,7 +17,7 @@ interface PlayerStore {
 }
 
 export const usePlayerStore = create<PlayerStore>((set, get) => ({
-    currentSong: null,
+    currentSong: null!,
     isPlaying: false,
     currentIndex: -1,
     queue: [],

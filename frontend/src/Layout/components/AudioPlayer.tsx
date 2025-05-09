@@ -11,12 +11,13 @@ export default function AudioPlayer() {
 
     // toggle play/pause the song
     useEffect(() => {
-        if (!isPlaying) audio?.pause()
-        else audio?.play()
+        if (isPlaying) audioRef.current?.play()
+        else audioRef.current?.pause()
     }, [isPlaying, audio])
 
     // handle song end
     useEffect(() => {
+        const audio = audioRef.current
         const handleEnded = () => { playNext() }
         audio?.addEventListener('ended', handleEnded)
         return () => { audio?.removeEventListener('ended', handleEnded) }
@@ -24,15 +25,16 @@ export default function AudioPlayer() {
 
     // handle song changes
     useEffect(() => {
-        if (!audio || !currentSong) return
-        const isSongChange = prevSong.current !== currentSong?._id
+        if (!audioRef.current || !currentSong) return
+        const audio = audioRef.current
+        const isSongChange = prevSong.current !== currentSong?.audioUrl
         if (isSongChange) {
             audio.src = currentSong?.audioUrl
             audio.currentTime = 0
             prevSong.current = currentSong?.audioUrl
             if (isPlaying) audio.play()
         }
-    }, [playNext, audio, currentSong, isPlaying])
+    }, [currentSong, isPlaying])
 
     return <audio ref={audioRef} />
 }

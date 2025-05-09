@@ -4,6 +4,11 @@ import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import { Laptop2, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1 } from "lucide-react"
 
+const formatTime = (time: number) => {
+    const minutes = Math.floor(time / 60)
+    const seconds = Math.floor(time % 60)
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+}
 
 export default function PlayControls() {
 
@@ -12,19 +17,18 @@ export default function PlayControls() {
     const [isCurrentTime, setIsCurrentTime] = useState(0)
     const { currentSong, togglePlay, isPlaying, playNext, playPrevious } = usePlayerStore()
 
-    console.log("Current time on PlayControlss :", currentSong)
-
     const audioRef = useRef<HTMLAudioElement | null>(null)
 
     useEffect(() => {
 
-        audioRef.current = document.querySelector("audio") as HTMLAudioElement | null
+        audioRef.current = document.querySelector("audio")
         const audio = audioRef.current
         if (!audio) return
 
         const updateTime = () => { setIsCurrentTime(audio.currentTime) }
         const updateDuration = () => { setIsDuration(audio.duration) }
         const handleEnded = () => { usePlayerStore.getState().playNext() }
+        // const handleEnded = () => { usePlayerStore.setState({ isPlaying: false }) }
 
         audio.addEventListener("timeupdate", updateTime)
         audio.addEventListener("loadedmetadata", updateDuration)
@@ -40,13 +44,7 @@ export default function PlayControls() {
 
 
     const handleSeek = (value: number[]) => {
-        if (audioRef.current) return audioRef.current.currentTime = value[0]
-    }
-
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60)
-        const seconds = Math.floor(time % 60)
-        return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+        if (audioRef.current) audioRef.current.currentTime = value[0]
     }
 
     return (
