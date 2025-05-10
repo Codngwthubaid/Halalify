@@ -24,7 +24,7 @@ export const initSocketServer = (httpServer) => {
 
             io.emit("user_connected", userId)
             socket.emit("users_online", Array.from(userSockets.keys()))
-            io.emit("users_activity", Array.from(userActivity.entries()))
+            io.emit("activity", Array.from(userActivity.entries()))
         })
 
         // ya upadted song ke bare main batayga ki user current song konsa sun reha hain
@@ -57,11 +57,12 @@ export const initSocketServer = (httpServer) => {
         socket.on("disconnected", () => {
             let disConnnectedUserId;
             for (const [userId, socketId] of userSockets.entries()) {
-                if (socketId === socket.id)
+                if (socketId === socket.id) {
                     disConnnectedUserId = userId
-                userSockets.delete(userId)
-                userActivity.delete(userId)
-                break
+                    userSockets.delete(userId)
+                    userActivity.delete(userId)
+                    break
+                }
             }
 
             // ya batayga baki sab users ko ki ab ya disconncted ho chuka hain  

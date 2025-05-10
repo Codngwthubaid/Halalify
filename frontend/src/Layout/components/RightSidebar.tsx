@@ -13,8 +13,8 @@ import {
 
 export default function FriendsActivity() {
 
-    const [isPlaying, setIsPlaying] = useState(true)
-    const { fetchUsers, users, isLoading, error } = useChatStore()
+    const [isPlaying] = useState(true)
+    const { fetchUsers, users } = useChatStore()
     const { user } = useUser()
 
     useEffect(() => { if (user) fetchUsers() }, [fetchUsers, user])
@@ -34,13 +34,13 @@ export default function FriendsActivity() {
                 <div className="p-4 space-y-4">
                     {users.map((user) => (
                         <div key={user._id} className="flex items-center gap-2">
-                            <div className="realative">
+                            <div className="relative">
                                 <Avatar className="size-10">
-                                    <AvatarImage src={user.imageUrl} alt={user.name} />
+                                    <AvatarImage src={user.imageUrl} alt={user.fullName} />
                                     <AvatarFallback>{user.fullName[0]}</AvatarFallback>
                                 </Avatar>
                                 <div
-                                    className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900 `}
+                                    className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900`}
                                     aria-hidden='true'
                                 />
                             </div>
@@ -55,11 +55,9 @@ export default function FriendsActivity() {
                                     <div className='flex flex-col items-start justify-start'>
                                         <div className='mt-1 text-sm text-white font-medium truncate'>
                                             {/* {activity.replace("Playing ", "").split(" by ")[0]} */}
-                                            Mota bhai
                                         </div>
                                         <div className='text-xs text-zinc-400 truncate'>
                                             {/* {activity.split(" by ")[1]} */}
-                                            by ubaid
                                         </div>
                                     </div>
                                 ) : (

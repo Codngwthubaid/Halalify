@@ -15,10 +15,10 @@ export const getAllUsers = async (req, res, next) => {
 export const getMessages = async (req, res, next) => {
     try {
         const myId = req.auth.userId
-        const { userID } = req.params
-        console.log(myId, userID)
+        const { userId } = req.params
+        console.log("meri id : ", myId, "user ki id ya hain  :", userId)
 
-        const message = await Message.find({ $or: [{ senderId: myId, receiverId: userID }, { senderId: userID, receiverId: myId }] }).sort({ createdAt: 1 })
+        const message = await Message.find({ $or: [{ senderId: myId, receiverId: userId }, { senderId: userId, receiverId: myId }] }).sort({ createdAt: 1 })
         res.status(200).json({ success: true, message: "Messages fetched successfully", message })
     } catch (error) {
         console.log("Error present in get messages route", error.message)

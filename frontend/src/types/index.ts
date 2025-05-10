@@ -41,7 +41,29 @@ export interface NewSong {
 }
 
 export interface NewAlbum {
-    title : string,
-    artist : string,
-    releaseYear : number
+    title: string,
+    artist: string,
+    releaseYear: number
+}
+
+
+export interface Message {
+    _id: string;
+    senderId: string;
+    receiverId: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface User {
+    _id: string;
+    fullName: string;
+    imageUrl: string;
+    clerkId: string;
+    email: string;
+    password: string;
+    isAdmin: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
