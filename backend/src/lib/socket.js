@@ -14,14 +14,18 @@ export const initSocketServer = (httpServer) => {
     const userActivity = new Map();
 
     io.on("connection", (socket) => {
-        const userId = socket.handshake.auth.userId;
+        const userId = String(socket.handshake.auth.userId);
+        console.log("User connected with userId:", userId);
         if (!userId) return;
 
         userSockets.set(userId, socket.id);
         userActivity.set(userId, "Idle");
 
         io.emit("user_connected", userId);
-        socket.emit("users_online", Array.from(userSockets.keys()));
+        // socket.emit("users_online", Array.from(userSockets.keys()));
+        const onlineUsers = Array.from(userSockets.keys());
+        console.log("Emitting users_online with:", onlineUsers); // Debug
+        socket.emit("users_online", onlineUsers);
         io.emit("activity", Array.from(userActivity.entries()));
 
         socket.on("update_activity", ({ userId, activity }) => {

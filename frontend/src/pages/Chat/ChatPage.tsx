@@ -23,10 +23,19 @@ export const NoConversationPlaceholder = () => (
 export default function ChatPage() {
 
     const { user } = useUser()
-    const { fetchMessage, fetchUsers, isSelectedUser, messages } = useChatStore()
+    const { fetchMessage, fetchUsers, isSelectedUser, messages, initSocket } = useChatStore()
+
+    const clerkId = user?.id
+    console.log("clerkId in ChatPage:", clerkId);
+
 
     useEffect(() => { if (user) fetchUsers() }, [user, fetchUsers])
     useEffect(() => { if (isSelectedUser) fetchMessage(isSelectedUser._id) }, [isSelectedUser, fetchMessage])
+    useEffect(() => {
+        initSocket(clerkId ?? "");
+        fetchUsers();
+        return () => { useChatStore.getState().disconnectSocket() };
+    }, [clerkId]);
 
     const formatTime = (date: string) => { return new Date(date).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) }
 
@@ -42,7 +51,7 @@ export default function ChatPage() {
                             <ChatHeader />
                             <ScrollArea className='h-[calc(100vh-300px)]'>
                                 <div className='p-4 space-y-4'>
-                                    {Array.isArray(messages) && messages.map((message , index) => (
+                                    {Array.isArray(messages) && messages.map((message, index) => (
                                         <div key={index} className={`flex items-center gap-2 ${message.senderId === user?.id ? "justify-end" : "justify-start"}`}>
                                             <Avatar className='size-8 md:size-10'>
                                                 <AvatarImage

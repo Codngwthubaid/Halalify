@@ -6,7 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"
 
 export default function UsersList() {
 
-    const { users, isLoading, setIsSelectedUser, isSelectedUser, onlineUsers } = useChatStore()
+    const { users, isLoading, setIsSelectedUser, isSelectedUser, onlineUsers, isConnected } = useChatStore()
+    if (!isConnected) return <div>Connecting to chat...</div>;
 
     return (
         <div className='border-r border-zinc-800'>
@@ -22,9 +23,9 @@ export default function UsersList() {
                                 <>
                                     {
                                         Array.isArray(users) && users.map((user) => {
-                                            console.log("user.clerkId:", user.clerkId);
-                                            console.log("Does onlineUsers have it?", onlineUsers.has(user.clerkId));
-                                            console.log("Checking if", user.clerkId, "is online:", onlineUsers.has(user.clerkId));
+                                            console.log("user.clerkId:", user.clerkId, "Type:", typeof user.clerkId);
+                                            console.log("Does onlineUsers have it?", onlineUsers.has(String(user.clerkId)));
+                                            console.log("Checking if", user.clerkId, "is online:", onlineUsers.has(String(user.clerkId)));
                                             return (
                                                 <div
                                                     key={user.clerkId}

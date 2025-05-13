@@ -14,9 +14,9 @@ import {
 export default function FriendsActivity() {
 
     const [isPlaying] = useState(true)
-    const { fetchUsers, users } = useChatStore()
+    const { fetchUsers, users , onlineUsers} = useChatStore()
     const { user } = useUser()
-
+ 
     useEffect(() => { if (user) fetchUsers() }, [fetchUsers, user])
 
     return (
@@ -40,8 +40,10 @@ export default function FriendsActivity() {
                                     <AvatarFallback>{user.fullName[0]}</AvatarFallback>
                                 </Avatar>
                                 <div
-                                    className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900`}
-                                    aria-hidden='true'
+                                    className={
+                                        `absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900 
+                                                        ${onlineUsers.has(user.clerkId) ? "bg-green-500" : "bg-zinc-500"}`
+                                    }
                                 />
                             </div>
 
