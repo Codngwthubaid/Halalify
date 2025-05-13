@@ -32,8 +32,8 @@ export default function FriendsActivity() {
 
             <ScrollArea className="flex-1">
                 <div className="p-4 space-y-4">
-                    {users.map((user) => (
-                        <div key={user._id} className="flex items-center gap-2">
+                    {Array.isArray(users) && users.map((user) => (
+                        <div key={user.clerkId} className="flex items-center gap-2">
                             <div className="relative">
                                 <Avatar className="size-10">
                                     <AvatarImage src={user.imageUrl} alt={user.fullName} />
@@ -71,3 +71,5 @@ export default function FriendsActivity() {
         </div>
     )
 }
+
+

@@ -61,9 +61,4 @@ export interface User {
     fullName: string;
     imageUrl: string;
     clerkId: string;
-    email: string;
-    password: string;
-    isAdmin: boolean;
-    createdAt: string;
-    updatedAt: string;
 }

@@ -13,7 +13,7 @@ import songsRoutes from './routes/songs.route.js'
 import albumsRoutes from './routes/albums.route.js'
 import statsRoutes from './routes/stats.route.js'
 import { createServer } from 'http'
-import { initSocketServer } from './lib/socket_io.js'
+import { initSocketServer } from './lib/socket.js'
 
 dotenv.config()
 

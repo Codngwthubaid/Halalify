@@ -20,11 +20,12 @@ interface ChatStore {
     sendMessage: (senderId: string, receiverId: string, content: string) => void
     fetchMessage: (userId: string) => Promise<void>
     setIsSelectedUser: (user: User | null) => void
+    setMessages: (msgs: Message[]) => void
 
 }
 
-const baseUrl = import.meta.env.BASE_URL_BACKEND!
-const socketInstance = io(baseUrl, {
+const baseUrl = import.meta.env.VITE_BASE_URL_BACKEND!
+const socket = io(baseUrl, {
     withCredentials: true,
     autoConnect: false
 })
@@ -33,117 +34,128 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     users: [],
     isLoading: false,
     error: null,
-    socket: null,
+    socket: socket,
     isConnected: false,
-    onlineUsers: new Set(),
+    onlineUsers: new Set<string>(),
     userActivities: new Map(),
     messages: [],
     isSelectedUser: null,
 
+    setMessages: (msgs: Message[]) => set({ messages: msgs }),
+    setIsSelectedUser: (user) => set({ isSelectedUser: user }),
+
     fetchUsers: async () => {
-        set({ isLoading: true, error: null })
+        set({ isLoading: true, error: null });
         try {
-            const result = await axiosInstance.get("/users")
-            const userData = result?.data?.users
+            const response = await axiosInstance.get("/users");
+            const userData = response?.data?.users
             set({ users: userData, isLoading: false })
         } catch (error: any) {
-            set({ error: error.result.data.message, isLoading: false })
+            set({ error: error.response.data.message });
         } finally {
-            set({ isLoading: false })
+            set({ isLoading: false });
         }
     },
 
-    initSocket: async (userId: string) => {
-        // agar user connected nhi hain tho ausse connect karo by socket
+    initSocket: (userId) => {
         if (!get().isConnected) {
-            socketInstance.auth = { userId }
-            socketInstance.connect()
+            socket.auth = { userId };
+            socket.connect();
 
-            // agar user online hain tho update krdo
-            socketInstance.on("users_online", (users: string[]) => {
-                set({ onlineUsers: new Set(users) })
-            })
+            socket.emit("user_connected", userId);
 
-            // agar user activity update hain tho update krdo
-            socketInstance.on("users_activity", (userActivities: [string, string][]) => {
-                set({ userActivities: new Map(userActivities) })
-            })
+            socket.on("users_online", (users: string[]) => {
+                console.log("Received online users:", users);
+                set(() => ({ onlineUsers: new Set(users) }));
+            });
 
-            // agar user connected hain tho ausse update krdo instantly
-            socketInstance.on("user_connected", (userId: string) => {
+
+            socket.on("activity", (activities: [string, string][]) => {
+                set({ userActivities: new Map(activities) });
+            });
+
+            socket.on("user_connected", (userId: string) => {
                 set((state) => ({
-                    onlineUsers: new Set([...state.onlineUsers, userId])
-                }))
-            })
+                    onlineUsers: new Set([...state.onlineUsers, userId]),
+                }));
+            });
 
-            // agar user disconnected hain tho ausse update krdo instantly
-            socketInstance.on("user_disconnected", (userId: string) => {
+            socket.on("user_disconnected", (userId: string) => {
                 set((state) => {
-                    const newOnlineUsers = new Set(state.onlineUsers)
-                    newOnlineUsers.delete(userId)
-                    return { onlineUsers: newOnlineUsers }
-                })
-            })
+                    const newOnlineUsers = new Set(state.onlineUsers);
+                    newOnlineUsers.delete(userId);
+                    return { onlineUsers: newOnlineUsers };
+                });
+            });
 
-            // agar reveice huwa hain kyo message tho update krdo
-            socketInstance.on("receive_message", (message: Message) => {
-                set((state) => ({
-                    messages: [...state.messages, message]
-                }))
-            })
-
-            // agar send huwa hain kyo message tho update krdo
-            socketInstance.on("message_sent", (message: Message) => {
-                set((state) => ({
-                    messages: [...state.messages, message]
-                }))
-            })
-
-            // update krdo user ki activity 
-            socketInstance.on("update_activity", ({ userId, userActivity }) => {
+            socket.on("receive_message", (message: Message) => {
                 set((state) => {
-                    const newUserActivities = new Map(state.userActivities)
-                    newUserActivities.set(userId, userActivity)
-                    return { userActivities: newUserActivities }
-                })
-            })
+                    const currentMessages = Array.isArray(state.messages) ? state.messages : [];
+                    const exists = currentMessages.some((m) => m._id === message._id);
+                    return {
+                        messages: exists ? currentMessages : [...currentMessages, message],
+                    };
+                });
+            });
 
-            // ✅ Emit after registering listeners
-            socketInstance.emit("user_connected", userId)
+            socket.on("message_sent", (message: Message) => {
+                set((state) => {
+                    const currentMessages = Array.isArray(state.messages) ? state.messages : [];
+                    const exists = currentMessages.some((m) => m._id === message._id);
+                    return {
+                        messages: exists ? currentMessages : [...currentMessages, message],
+                    };
+                });
+            });
 
-            // ✅ Mark connection active
-            set({ isConnected: true, socket: socketInstance })
 
+            socket.on("activity_updated", ({ userId, activity }) => {
+                set((state) => {
+                    const newActivities = new Map(state.userActivities);
+                    newActivities.set(userId, activity);
+                    return { userActivities: newActivities };
+                });
+            });
+
+            set({ isConnected: true });
         }
     },
 
     disconnectSocket: () => {
         if (get().isConnected) {
-            socketInstance.disconnect()
-            set({ isConnected: false })
+            socket.disconnect();
+            set({ isConnected: false });
         }
     },
 
     sendMessage: async (receiverId, senderId, content) => {
-        const socket = get().socket
-        if (!socket) return
-        socket.emit("send_message", { receiverId, senderId, content })
+        const socket = get().socket;
+        if (!socket) return;
+
+        socket.emit("send_message", { receiverId, senderId, content });
     },
 
     fetchMessage: async (userId: string) => {
+        set({ isLoading: true, error: null });
         try {
-            set({ isLoading: true, error: null })
-            const result = await axiosInstance.get(`/users/messages/${userId}`)
-            set({ messages: result.data, isLoading: false })
+            const response = await axiosInstance.get(`/users/messages/${userId}`);
+            set({ messages: response.data });
         } catch (error: any) {
-            console.log(error)
-            set({ error: error.response.data.message, isLoading: false })
+            set({ error: error.response.data.message });
         } finally {
-            set({ isLoading: false })
+            set({ isLoading: false });
         }
     },
+}));
 
-    setIsSelectedUser: (user: User | null) => {
-        set({ isSelectedUser: user })
-    }
-}))
+
+
+
+
+
+
+
+
+
+
+

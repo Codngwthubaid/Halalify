@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
-import { useAuth, useUser } from "@clerk/clerk-react";
+import { useAuth } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 import { Loader } from 'lucide-react';
 import { useAuthStore } from "@/stores/useAuthStore";
@@ -16,7 +16,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     const { isAdminCheck } = useAuthStore()
     const { initSocket, disconnectSocket } = useChatStore()
     const [isLoading, setIsLoading] = useState(true);
-    console.log("userId:", userId);
 
     useEffect(() => {
         const initToken = async () => {
