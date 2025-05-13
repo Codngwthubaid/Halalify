@@ -24,7 +24,6 @@ export default function ChatPage() {
 
     const { user } = useUser()
     const { fetchMessage, fetchUsers, isSelectedUser, messages } = useChatStore()
-    console.log("ya rehe hain messages :", messages)
 
     useEffect(() => { if (user) fetchUsers() }, [user, fetchUsers])
     useEffect(() => { if (isSelectedUser) fetchMessage(isSelectedUser._id) }, [isSelectedUser, fetchMessage])
