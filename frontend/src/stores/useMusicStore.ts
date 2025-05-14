@@ -122,7 +122,9 @@ export const useMusicStore = create<MusicProps>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const result = await axiosInstance.get("/songs");
+      console.log("result from useMusicStore : ", result)
       const songsData = Array.isArray(result.data) ? result.data : result.data?.songs || [];
+      console.log("songs data from useMusicStore : ", songsData)
       set({ songs: songsData, isLoading: false });
     } catch (error: any) {
       console.error("Error fetching songs:", error);

@@ -6,10 +6,10 @@ import {
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import LeftSidebar from "./components/LeftSidebar"
-import FriendsActivity from "./components/RightSidebar"
 import AudioPlayer from "./components/AudioPlayer"
 import PlayControls from "./components/PlayControls"
 import { useEffect } from "react"
+import RightSidebar from "./components/RightSidebar"
 
 export default function MainLayout() {
 
@@ -41,8 +41,8 @@ export default function MainLayout() {
                 {!isMobile && (
                     <>
                         <ResizableHandle />
-                        <ResizablePanel defaultSize={25} minSize={0} maxSize={30} collapsedSize={0}>
-                            <FriendsActivity />
+                        <ResizablePanel defaultSize={20} minSize={0} maxSize={25} collapsedSize={0}>
+                            <RightSidebar />
                         </ResizablePanel>
                     </>
                 )}

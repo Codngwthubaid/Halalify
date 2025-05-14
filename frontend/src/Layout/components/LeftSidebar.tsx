@@ -1,7 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { SignedIn } from "@clerk/clerk-react";
-import { Home, LibraryBigIcon, MessageCircleMoreIcon } from "lucide-react";
+import { Album, LibraryBigIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
@@ -26,21 +25,9 @@ export default function LeftSidebar() {
                             "w-full justify-start hover:bg-zinc-800"
                         )}
                     >
-                        <Home className="size-6 mr-2" />
-                        <span className="hidden md:block">Home</span>
+                        <Album className="size-6 mr-2" />
+                        <span className="hidden md:block">Album</span>
                     </Link>
-                    <SignedIn>
-                        <Link
-                            to="/"
-                            className={cn(
-                                buttonVariants({ variant: "ghost" }),
-                                "w-full justify-start hover:bg-zinc-800"
-                            )}
-                        >
-                            <MessageCircleMoreIcon className="size-6 mr-2" />
-                            <span className="hidden md:block">Message</span>
-                        </Link>
-                    </SignedIn>
                 </div>
             </div>
 
@@ -52,8 +39,8 @@ export default function LeftSidebar() {
                     </div>
                 </div>
 
-                <ScrollArea className="h-[400px] my-5 w-full">
-                    <div className="space-y-2">
+                <ScrollArea className="h-[calc(100vh-280px)] mt-5 w-full">
+                    <div className="space-y-1">
                         {isLoading ? (
                             <LoadingSkeleton />
                         ) :

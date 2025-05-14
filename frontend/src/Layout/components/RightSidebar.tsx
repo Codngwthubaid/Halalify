@@ -1,77 +1,75 @@
-import LoginSuggestion from "@/components/LoginSuggestion"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { useChatStore } from "@/stores/useChatStore"
-import { useUser } from "@clerk/clerk-react"
-import { Music, Users } from "lucide-react"
-import { useEffect, useState } from "react"
+import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useMusicStore } from "@/stores/useMusicStore";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { LibraryBigIcon, Music } from "lucide-react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-} from "@/components/ui/avatar"
+export default function RightSidebar() {
 
-export default function FriendsActivity() {
+    const { isLoading, songs, fetchSongs } = useMusicStore()
+    console.log("songs from right sidebar", songs)
 
-    const [isPlaying] = useState(true)
-    const { fetchUsers, users , onlineUsers} = useChatStore()
-    const { user } = useUser()
- 
-    useEffect(() => { if (user) fetchUsers() }, [fetchUsers, user])
+    useEffect(() => {
+        fetchSongs()
+    }, [fetchSongs])
 
     return (
-        <div className="h-full flex flex-col p-6 text-center space-y-4 rounded-md bg-zince800/50 backdrop-blur-md shadow-md">
-            <div className="p-4 flex items-center justify-between group border-b border-zinc-800">
-                <div className="flex items-center gap-2">
-                    <Users className="size-6 text-purple-500" />
-                    <h3 className="text-base font-normal text-white">What's your friends listening to</h3>
+        <div className="h-full flex flex-col gap-2">
+            <div className="bg-zinc-900 rounded-lg m-3 p-4">
+                <div className="space-y-2">
+                    <Link
+                        to="/"
+                        className={cn(
+                            buttonVariants({ variant: "ghost" }),
+                            "w-full justify-start hover:bg-zinc-800"
+                        )}
+                    >
+                        <Music className="size-6 mr-2" />
+                        <span className="hidden md:block">Nasheeds</span>
+                    </Link>
                 </div>
             </div>
 
-            {!user && <LoginSuggestion />}
 
-            <ScrollArea className="flex-1">
-                <div className="p-4 space-y-4">
-                    {Array.isArray(users) && users.map((user) => (
-                        <div key={user.clerkId} className="flex items-center gap-2">
-                            <div className="relative">
-                                <Avatar className="size-10">
-                                    <AvatarImage src={user.imageUrl} alt={user.fullName} />
-                                    <AvatarFallback>{user.fullName[0]}</AvatarFallback>
-                                </Avatar>
-                                <div
-                                    className={
-                                        `absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900 
-                                                        ${onlineUsers.has(user.clerkId) ? "bg-green-500" : "bg-zinc-500"}`
-                                    }
-                                />
-                            </div>
-
-                            <div className='flex-1 min-w-0'>
-                                <div className='flex items-center gap-2'>
-                                    <span className='font-medium text-sm text-white'>{user.fullName}</span>
-                                    {isPlaying && <Music className='size-3.5 text-purple-400 shrink-0' />}
-                                </div>
-
-                                {isPlaying ? (
-                                    <div className='flex flex-col items-start justify-start'>
-                                        <div className='mt-1 text-sm text-white font-medium truncate'>
-                                            {/* {activity.replace("Playing ", "").split(" by ")[0]} */}
-                                        </div>
-                                        <div className='text-xs text-zinc-400 truncate'>
-                                            {/* {activity.split(" by ")[1]} */}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className='mt-1 text-xs text-zinc-400'>Idle</div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+            <div className="flex-1 p-4 m-3 mt-0 rounded-lg bg-zinc-900">
+                <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                        <LibraryBigIcon className="size-6 mr-2" />
+                        <span className="hidden md:block">Playlists</span>
+                    </div>
                 </div>
-            </ScrollArea>
+
+                <ScrollArea className="h-[calc(100vh-280px)] mt-5 w-full">
+                    <div className="space-y-1">
+                        {isLoading ? (
+                            <LoadingSkeleton />
+                        ) :
+                            (Array.isArray(songs) && (
+                                songs.map((song) => (
+                                    <Link
+                                        to={`/songs/${song._id}`}
+                                        key={song._id}
+                                        className="flex items-center gap-2 hover:bg-zinc-800 p-2 rounded-md cursor-pointer"
+                                    >
+                                        <img
+                                            src={song.imageUrl}
+                                            alt={song.title}
+                                            className="size-12 flex-shrink-0 object-cover rounded-md"
+                                        />
+                                        <div className="flex-1 min-w-0 hidden md:block">
+                                            <p className="truncate font-medium">{song.title}</p>
+                                            <p className="truncate text-sm text-zinc-400">song {song.artist}</p>
+                                        </div>
+                                    </Link>
+                                ))
+                            ))}
+                    </div>
+                </ScrollArea>
+            </div>
+
         </div>
     )
 }
-
-

@@ -25,7 +25,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
                 if (token) {
                     await isAdminCheck();
                     if (userId) {
-                        initSocket(userId);
+                        initSocket(userId ?? "");
                     } else {
                         console.warn("userId is undefined – socket not initialized");
                     }

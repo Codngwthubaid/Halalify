@@ -23,7 +23,7 @@ export default function HomePage() {
     <div className="p-3">
       <Topbar />
 
-      <ScrollArea className="h-[calc(100vh-150px)] overflow-auto hideScollbar">
+      <ScrollArea className="h-[calc(100vh-180px)] overflow-auto hideScollbar">
         <div>
           <h1 className="text-2xl font-bold my-4 sm:text-3xl">Good Afternoon</h1>
           <FeaturedSongs />
