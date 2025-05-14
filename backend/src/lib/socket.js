@@ -15,17 +15,14 @@ export const initSocketServer = (httpServer) => {
 
     io.on("connection", (socket) => {
         const userId = String(socket.handshake.auth.userId);
-        console.log("User connected with userId:", userId);
         if (!userId) return;
 
         userSockets.set(userId, socket.id);
         userActivity.set(userId, "Idle");
 
         io.emit("user_connected", userId);
-        // socket.emit("users_online", Array.from(userSockets.keys()));
         const onlineUsers = Array.from(userSockets.keys());
-        console.log("Emitting users_online with:", onlineUsers); // Debug
-        socket.emit("users_online", onlineUsers);
+        io.emit("users_online", onlineUsers);
         io.emit("activity", Array.from(userActivity.entries()));
 
         socket.on("update_activity", ({ userId, activity }) => {
@@ -37,9 +34,14 @@ export const initSocketServer = (httpServer) => {
             try {
                 const newMessage = await Message.create({ senderId, receiverId, content });
                 const receiverSocketId = userSockets.get(receiverId);
+                console.log("userSockets Map:", Array.from(userSockets.entries()));
+                console.log("Receiver ID:", receiverId, "Receiver Socket ID:", receiverSocketId);
 
                 if (receiverSocketId) {
                     io.to(receiverSocketId).emit("receive_message", newMessage);
+                    console.log("Emitted receive_message to", receiverSocketId);
+                } else {
+                    console.log("Receiver", receiverId, "is offline or not found in userSockets");
                 }
 
                 socket.emit("message_sent", newMessage);
