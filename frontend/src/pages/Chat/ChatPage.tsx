@@ -26,8 +26,6 @@ export default function ChatPage() {
     const { fetchMessage, fetchUsers, isSelectedUser, messages, initSocket } = useChatStore()
 
     const clerkId = user?.id
-    console.log("clerkId in ChatPage:", clerkId);
-
 
     useEffect(() => { if (user) fetchUsers() }, [user, fetchUsers])
     useEffect(() => { if (isSelectedUser) fetchMessage(isSelectedUser._id) }, [isSelectedUser, fetchMessage])

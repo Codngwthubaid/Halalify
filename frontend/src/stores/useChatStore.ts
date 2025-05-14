@@ -49,7 +49,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         try {
             const response = await axiosInstance.get("/users");
             const userData = response?.data?.users
-            console.log("users data from useChatStore : ", userData)
             set({ users: userData, isLoading: false })
         } catch (error: any) {
             set({ error: error.response.data.message });
@@ -66,10 +65,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             socket.emit("user_connected", userId);
 
             socket.on("users_online", (users: string[]) => {
-                console.log("Received online users:", users);
                 set(() => ({ onlineUsers: new Set(users.map(String)) }));
             });
-
 
             socket.on("activity", (activities: [string, string][]) => {
                 set({ userActivities: new Map(activities) });

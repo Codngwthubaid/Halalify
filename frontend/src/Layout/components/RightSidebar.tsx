@@ -16,8 +16,6 @@ export default function RightSidebar() {
     const [isCurrentTime, setIsCurrentTime] = useState(0);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    console.log("songs from right sidebar", songs);
-
     useEffect(() => {
         fetchSongs();
     }, [fetchSongs]);

@@ -23,9 +23,6 @@ export default function UsersList() {
                                 <>
                                     {
                                         Array.isArray(users) && users.map((user) => {
-                                            console.log("user.clerkId:", user.clerkId, "Type:", typeof user.clerkId);
-                                            console.log("Does onlineUsers have it?", onlineUsers.has(String(user.clerkId)));
-                                            console.log("Checking if", user.clerkId, "is online:", onlineUsers.has(String(user.clerkId)));
                                             return (
                                                 <div
                                                     key={user.clerkId}
