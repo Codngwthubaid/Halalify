@@ -41,7 +41,7 @@ export default function MainLayout() {
                 {!isMobile && (
                     <>
                         <ResizableHandle />
-                        <ResizablePanel defaultSize={20} minSize={0} maxSize={25} collapsedSize={0}>
+                        <ResizablePanel defaultSize={20} maxSize={25}>
                             <RightSidebar />
                         </ResizablePanel>
                     </>

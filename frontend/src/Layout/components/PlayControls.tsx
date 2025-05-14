@@ -28,7 +28,6 @@ export default function PlayControls() {
         const updateTime = () => { setIsCurrentTime(audio.currentTime) }
         const updateDuration = () => { setIsDuration(audio.duration) }
         const handleEnded = () => { usePlayerStore.getState().playNext() }
-        // const handleEnded = () => { usePlayerStore.setState({ isPlaying: false }) }
 
         audio.addEventListener("timeupdate", updateTime)
         audio.addEventListener("loadedmetadata", updateDuration)
