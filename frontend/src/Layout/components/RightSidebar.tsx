@@ -4,49 +4,15 @@ import { cn } from "@/lib/utils";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LibraryBigIcon, Music } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import PlayButton from "@/pages/home/components/playButton";
-import { usePlayerStore } from "@/stores/usePlayerStore";
 
 export default function RightSidebar() {
     const { isLoading, songs, fetchSongs } = useMusicStore();
-    const { currentSong } = usePlayerStore();
-    const [isDuration, setIsDuration] = useState(0);
-    const [isCurrentTime, setIsCurrentTime] = useState(0);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
         fetchSongs();
     }, [fetchSongs]);
-
-    useEffect(() => {
-        audioRef.current = document.querySelector("audio");
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const updateTime = () => {
-            setIsCurrentTime(audio.currentTime);
-        };
-        const updateDuration = () => {
-            setIsDuration(audio.duration);
-        };
-
-        audio.addEventListener("timeupdate", updateTime);
-        audio.addEventListener("loadedmetadata", updateDuration);
-
-        return () => {
-            audio.removeEventListener("timeupdate", updateTime);
-            audio.removeEventListener("loadedmetadata", updateDuration);
-        };
-    }, []);
-
-    const formatTime = (seconds: number) => {
-        if (!seconds || isNaN(seconds)) return "0:00";
-        const minutes = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${minutes}:${secs.toString().padStart(2, "0")}`;
-    };
 
     return (
         <div className="h-full flex flex-col gap-2">
@@ -80,7 +46,8 @@ export default function RightSidebar() {
                         ) : (
                             Array.isArray(songs) &&
                             songs.map((song) => (
-                                <div
+                                <Link
+                                    to={`/songs/${song._id}`}
                                     key={song._id}
                                     className="group flex items-center gap-2 hover:bg-zinc-800 p-2 rounded-md cursor-pointer relative"
                                 >
@@ -94,16 +61,8 @@ export default function RightSidebar() {
                                         <p className="truncate text-sm text-zinc-400">
                                             song {song.artist}
                                         </p>
-                                        {currentSong?._id === song._id && (
-                                            <p className="text-xs text-zinc-500">
-                                                {formatTime(isCurrentTime)} / {formatTime(isDuration)}
-                                            </p>
-                                        )}
                                     </div>
-                                    <div className="absolute left-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <PlayButton song={song} />
-                                    </div>
-                                </div>
+                                </Link>
                             ))
                         )}
                     </div>

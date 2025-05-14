@@ -58,3 +58,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         set({ isPlaying: isPlaying });
     }
 }))
+
+
+
+

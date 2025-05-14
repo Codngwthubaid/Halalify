@@ -5,6 +5,7 @@ import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react";
 import MainLayout from "./Layout/MainLayout";
 import AlbumPage from "./pages/album/AlbumPage";
 import AdminPage from "./pages/admin/AdminPage";
+import SongPage from "./pages/song/SongPage";
 
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
      
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/songs/:songId" element={<SongPage />} />
           <Route path="/albums/:albumId" element={<AlbumPage />} />
         </Route>
       </Routes>
