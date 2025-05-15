@@ -14,7 +14,15 @@ export default function SongsTable() {
         );
     }
 
-    if (!isLoading && songs.length === 0) {
+    if (songs.length === 0) {
+        return (
+            <div className='flex items-center justify-center py-8'>
+                <p className='text-zinc-400'>No songs available</p>
+            </div>
+        )
+    }
+
+    if (isLoading) {
         return (
             <div className='flex items-center justify-center py-8'>
                 <Loader className="text-purple-600 animate-spin" />
