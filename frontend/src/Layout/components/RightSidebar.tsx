@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { LibraryBigIcon, Music } from "lucide-react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import PlayButton from "@/pages/home/components/playButton";
 
 export default function RightSidebar() {
     const { isLoading, songs, fetchSongs } = useMusicStore();
@@ -46,8 +47,7 @@ export default function RightSidebar() {
                         ) : (
                             Array.isArray(songs) &&
                             songs.map((song) => (
-                                <Link
-                                    to={`/songs/${song._id}`}
+                                <div
                                     key={song._id}
                                     className="group flex items-center gap-2 hover:bg-zinc-800 p-2 rounded-md cursor-pointer relative"
                                 >
@@ -62,7 +62,10 @@ export default function RightSidebar() {
                                             song {song.artist}
                                         </p>
                                     </div>
-                                </Link>
+                                    <div className="absolute left-3 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        <PlayButton song={song} />
+                                    </div>
+                                </div>
                             ))
                         )}
                     </div>

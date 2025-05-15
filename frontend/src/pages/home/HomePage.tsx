@@ -19,13 +19,25 @@ export default function HomePage() {
     }
   }, [initQueue, madeForYouSongs, trendingSongs, FeaturedSongs])
 
+
+  const timeCalc = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return "Good Morning";
+    if (hour >= 12 && hour < 17) return "Good Afternoon";
+    if (hour >= 17 && hour < 21) return "Good Evening";
+    return "Good Night";
+
+  }
+
   return (
     <div className="p-3">
-      <Topbar />
+      <div className="hidden sm:block">
+        <Topbar />
+      </div>
 
-      <ScrollArea className="h-[calc(100vh-180px)] overflow-auto hideScollbar">
+      <ScrollArea className="h-[calc(100vh-95px)] sm:h-[calc(100vh-180px)] overflow-auto hideScollbar">
         <div>
-          <h1 className="text-2xl font-bold my-4 sm:text-3xl">Good Afternoon</h1>
+          <h1 className="text-2xl font-bold my-4 sm:text-3xl">{timeCalc()}</h1>
           <FeaturedSongs />
         </div>
 

@@ -1,50 +1,68 @@
-import { usePlayerStore } from "@/stores/usePlayerStore"
-import { useEffect, useRef, useState } from "react"
-import { Slider } from "@/components/ui/slider"
-import { Button } from "@/components/ui/button"
-import { Laptop2, ListMusic, Mic2, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1 } from "lucide-react"
+import { usePlayerStore } from "@/stores/usePlayerStore";
+import { useEffect, useRef, useState } from "react";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { Pause, Play, SkipBack, SkipForward, Volume1, VolumeX } from "lucide-react";
 
 const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
-}
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+};
 
 export default function PlayControls() {
+    const [isVolume, setIsVolume] = useState(75); // Tracks the actual volume level
+    const [isMuted, setIsMuted] = useState(false); // Tracks mute state
+    const [prevVolume, setPrevVolume] = useState(75); // Stores volume before muting
+    const [isDuration, setIsDuration] = useState(0);
+    const [isCurrentTime, setIsCurrentTime] = useState(0);
+    const { currentSong, togglePlay, isPlaying, playNext, playPrevious } = usePlayerStore();
 
-    const [isVolume, setIsVolume] = useState(75)
-    const [isDuration, setIsDuration] = useState(0)
-    const [isCurrentTime, setIsCurrentTime] = useState(0)
-    const { currentSong, togglePlay, isPlaying, playNext, playPrevious } = usePlayerStore()
-
-    const audioRef = useRef<HTMLAudioElement | null>(null)
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     useEffect(() => {
+        audioRef.current = document.querySelector("audio");
+        const audio = audioRef.current;
+        if (!audio) return;
 
-        audioRef.current = document.querySelector("audio")
-        const audio = audioRef.current
-        if (!audio) return
+        const updateTime = () => { setIsCurrentTime(audio.currentTime); };
+        const updateDuration = () => { setIsDuration(audio.duration); };
+        const handleEnded = () => { usePlayerStore.getState().playNext(); };
 
-        const updateTime = () => { setIsCurrentTime(audio.currentTime) }
-        const updateDuration = () => { setIsDuration(audio.duration) }
-        const handleEnded = () => { usePlayerStore.getState().playNext() }
+        audio.addEventListener("timeupdate", updateTime);
+        audio.addEventListener("loadedmetadata", updateDuration);
+        audio.addEventListener("ended", handleEnded);
 
-        audio.addEventListener("timeupdate", updateTime)
-        audio.addEventListener("loadedmetadata", updateDuration)
-        audio.addEventListener("ended", handleEnded)
+        // Set initial volume
+        audio.volume = isVolume / 100;
 
         return () => {
-            audio.removeEventListener("timeupdate", updateTime)
-            audio.removeEventListener("loadedmetadata", updateDuration)
-            audio.removeEventListener("ended", handleEnded)
-        }
-
-    }, [currentSong])
-
+            audio.removeEventListener("timeupdate", updateTime);
+            audio.removeEventListener("loadedmetadata", updateDuration);
+            audio.removeEventListener("ended", handleEnded);
+        };
+    }, [currentSong]);
 
     const handleSeek = (value: number[]) => {
-        if (audioRef.current) audioRef.current.currentTime = value[0]
-    }
+        if (audioRef.current) audioRef.current.currentTime = value[0];
+    };
+
+    const handleMuteToggle = () => {
+        if (audioRef.current) {
+            if (!isMuted) {
+                // Mute: Store current volume and mute audio
+                setPrevVolume(isVolume);
+                audioRef.current.muted = true;
+                setIsMuted(true);
+            } else {
+                // Unmute: Restore previous volume
+                audioRef.current.muted = false;
+                setIsVolume(prevVolume);
+                audioRef.current.volume = prevVolume / 100;
+                setIsMuted(false);
+            }
+        }
+    };
 
     return (
         <footer className='h-20 sm:h-24 bg-zinc-900 border-t w-full border-zinc-800 px-4'>
@@ -74,14 +92,6 @@ export default function PlayControls() {
                         <Button
                             size='icon'
                             variant='ghost'
-                            className='hidden sm:inline-flex hover:text-white text-zinc-400 cursor-pointer'
-                        >
-                            <Shuffle className='h-4 w-4' />
-                        </Button>
-
-                        <Button
-                            size='icon'
-                            variant='ghost'
                             className='hover:text-white text-zinc-400 cursor-pointer'
                             onClick={playPrevious}
                             disabled={!currentSong}
@@ -106,13 +116,6 @@ export default function PlayControls() {
                         >
                             <SkipForward className='h-4 w-4' />
                         </Button>
-                        <Button
-                            size='icon'
-                            variant='ghost'
-                            className='hidden sm:inline-flex hover:text-white text-zinc-400 cursor-pointer'
-                        >
-                            <Repeat className='h-4 w-4' />
-                        </Button>
                     </div>
 
                     <div className='hidden sm:flex items-center gap-2 w-full'>
@@ -127,25 +130,20 @@ export default function PlayControls() {
                         <div className='text-xs text-zinc-400'>{formatTime(isDuration)}</div>
                     </div>
                 </div>
-                {/* volume controls */}
-                <div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
-                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
-                        <Mic2 className='h-4 w-4' />
-                    </Button>
-                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
-                        <ListMusic className='h-4 w-4' />
-                    </Button>
-                    <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
-                        <Laptop2 className='h-4 w-4' />
-                    </Button>
 
+                <div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%] justify-end'>
                     <div className='flex items-center gap-2'>
-                        <Button size='icon' variant='ghost' className='hover:text-white text-zinc-400 cursor-pointer'>
-                            <Volume1 className='h-4 w-4' />
+                        <Button
+                            size='icon'
+                            variant='ghost'
+                            className='hover:text-white text-zinc-400 cursor-pointer'
+                            onClick={handleMuteToggle}
+                        >
+                            {isMuted ? <VolumeX className='h-4 w-4' /> : <Volume1 className='h-4 w-4' />}
                         </Button>
 
                         <Slider
-                            value={[isVolume]}
+                            value={isMuted ? [0] : [isVolume]} // Show 0 when muted
                             max={100}
                             step={1}
                             className='w-24 hover:cursor-grab active:cursor-grabbing'
@@ -153,6 +151,8 @@ export default function PlayControls() {
                                 setIsVolume(value[0]);
                                 if (audioRef.current) {
                                     audioRef.current.volume = value[0] / 100;
+                                    audioRef.current.muted = false; // Unmute when slider changes
+                                    setIsMuted(false); // Update mute state
                                 }
                             }}
                         />
@@ -160,5 +160,5 @@ export default function PlayControls() {
                 </div>
             </div>
         </footer>
-    )
+    );
 }

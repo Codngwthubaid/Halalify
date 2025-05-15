@@ -30,7 +30,6 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
         if (songs.length === 0) return;
         const currentSong = songs[index] || null;
         set({ queue: songs, currentIndex: index, currentSong: currentSong, isPlaying: true });
-        console.log("Playing album", songs, currentSong, index)
     },
 
     setCurrentSong: (song: Songs | null) => {
