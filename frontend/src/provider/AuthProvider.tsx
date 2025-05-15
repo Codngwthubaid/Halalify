@@ -3,7 +3,6 @@ import { useAuth } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 import { Loader } from 'lucide-react';
 import { useAuthStore } from "@/stores/useAuthStore";
-import { useChatStore } from "@/stores/useChatStore";
 
 const updateApiToken = (token: string | null) => {
     if (token) axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -14,7 +13,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
     const { getToken, userId } = useAuth();
     const { isAdminCheck } = useAuthStore()
-    const { initSocket, disconnectSocket } = useChatStore()
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -22,14 +20,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
             try {
                 const token = await getToken();
                 updateApiToken(token);
-                if (token) {
-                    await isAdminCheck();
-                    if (userId) {
-                        initSocket(userId ?? "");
-                    } else {
-                        console.warn("userId is undefined – socket not initialized");
-                    }
-                }
+                if (token) await isAdminCheck()
 
             } catch (error: any) {
                 updateApiToken(null);
@@ -40,9 +31,8 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
         };
         initToken();
 
-        return () => disconnectSocket()
 
-    }, [getToken, userId, isAdminCheck, initSocket, disconnectSocket]);
+    }, [getToken, userId, isAdminCheck]);
 
     if (isLoading) return (
         <div className="h-screen w-full flex justify-center items-center">

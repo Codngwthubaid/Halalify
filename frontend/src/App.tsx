@@ -10,10 +10,15 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/sso-callback" element={<AuthenticateWithRedirectCallback signInFallbackRedirectUrl={"/auth-callback"} />} />
+        <Route
+          path="/sso-callback"
+          element={<AuthenticateWithRedirectCallback
+          signInFallbackRedirectUrl={"/auth-callback"}
+          />}
+        />
         <Route path="/auth-callback" element={<AuthCallBackPage />} />
         <Route path="/admin" element={<AdminPage />} />
-     
+
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/albums/:albumId" element={<AlbumPage />} />
