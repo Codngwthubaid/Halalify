@@ -50,12 +50,12 @@ export default function AlbumPage() {
             <ScrollArea className="h-full">
                 <div className="min-h-full relative">
 
-                    <div className="relative z-10 flex mt-3 m-6">
-                        <div className="flex items-center justify-center gap-4">
-                            <img src={currentAlbum?.imageUrl} alt={currentAlbum?.title} className="w-60 h-60 shadow-xl rounded-xl" />
-                            <div className="flex justify-end flex-col">
+                    <div className="relative z-10 sm:flex mt-3 m-6">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <img src={currentAlbum?.imageUrl} alt={currentAlbum?.title} className="w-full sm:size-60 shadow-xl rounded-xl" />
+                            <div className="flex justify-end flex-col w-full">
                                 <p className="text-sm text-white">Album</p>
-                                <h1 className="text-5xl font-bold text-white">{currentAlbum?.title}</h1>
+                                <h1 className="text-2xl sm:text-5xl font-bold text-white">{currentAlbum?.title}</h1>
                                 <div className="flex items-center gap-2 mt-2 text-zinc-100">
                                     <p className="text-sm text-white font-bold">{currentAlbum?.artist} &#9679;</p>
                                     <p className="text-sm text-white">{currentAlbum?.releaseYear} &#9679;</p>
@@ -66,11 +66,11 @@ export default function AlbumPage() {
                     </div>
 
                     <div className="px-6 pb-4 flex items-center gap-6">
-                        <Button className="size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out" onClick={handlePlayAlbum}>
+                        <Button className="size-10 sm:size-16 bg-purple-700 cursor-pointer hover:bg-purple-800 py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out" onClick={handlePlayAlbum}>
                             {isPlaying && currentAlbum?.songs.some((song) => song._id === currentSong?._id) ? (
-                                <Pause className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
+                                <Pause className="mr-2 size-4 sm:size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
                             ) : (
-                                <Play className="mr-2 size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
+                                <Play className="mr-2 size-4 sm:size-6 ml-2 text-black/80 transition-all hover:scale-125" fill="currentColor" />
                             )}
                         </Button>
                     </div>
@@ -83,16 +83,18 @@ export default function AlbumPage() {
                             <TableHeader>
                                 <TableRow className="bg-gray-100 dark:bg-zinc-800 text-gray-500 dark:text-gray-400">
                                     <TableHead className="w-12 text-center">
-                                        <List className="size-5 inline-block" />
+                                        <List className="size-5 hidden sm:table-cell" />
                                     </TableHead>
-                                    <TableHead className="min-w-[200px] sm:min-w-[300px]">
+                                    <TableHead className="w-full sm:min-w-[300px]">
                                         <div className="flex items-center gap-2">Title</div>
                                     </TableHead>
                                     <TableHead className="min-w-[120px] hidden sm:table-cell">
                                         <div className="flex items-center gap-2">Created At</div>
                                     </TableHead>
-                                    <TableHead className="min-w-[100px]">
-                                        <div className="flex items-center gap-2"><Clock className="size-5" /></div>
+                                    <TableHead className="min-w-[100px] hidden sm:table-cell">
+                                        <div className="flex items-center gap-2">
+                                            <Clock className="size-5" />
+                                        </div>
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -110,7 +112,7 @@ export default function AlbumPage() {
                                                     {currentSongId && isPlaying ? (
                                                         <Music className="size-5 text-purple-700" />
                                                     ) : (
-                                                        <span className="group-hover:hidden text-sm">{index + 1}</span>
+                                                        <span className="group-hover:hidden text-sm hidden sm:table-cell">{index + 1}</span>
                                                     )}
                                                     {
                                                         !currentSongId && (
@@ -133,7 +135,7 @@ export default function AlbumPage() {
                                             <TableCell className="text-sm hidden sm:table-cell">
                                                 {song?.createdAt.split("T")[0]}
                                             </TableCell>
-                                            <TableCell className="text-sm">{secondsToMinutes(song?.duration)}</TableCell>
+                                            <TableCell className="text-sm hidden sm:table-cell">{secondsToMinutes(song?.duration)}</TableCell>
                                         </TableRow>
                                     )
                                 })}

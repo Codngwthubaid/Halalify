@@ -1,40 +1,68 @@
-
 import { usePlayerStore } from "@/stores/usePlayerStore";
 import { useEffect, useRef } from "react";
 
 export default function AudioPlayer() {
-
     const audioRef = useRef<HTMLAudioElement>(null);
-    const prevSong = useRef<string | null>(null)
-    const audio = audioRef.current;
-    const { currentSong, isPlaying, playNext } = usePlayerStore()
+    const prevSong = useRef<string | null>(null);
+    const { currentSong, isPlaying, setIsPlaying } = usePlayerStore();
 
-    // toggle play/pause the song
     useEffect(() => {
-        if (isPlaying) audioRef.current?.play()
-        else audioRef.current?.pause()
-    }, [isPlaying, audio])
+        const audio = audioRef.current;
+        if (!audio) return;
 
-    // handle song end
-    useEffect(() => {
-        const audio = audioRef.current
-        const handleEnded = () => { playNext() }
-        audio?.addEventListener('ended', handleEnded)
-        return () => { audio?.removeEventListener('ended', handleEnded) }
-    }, [audio, playNext])
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+        const handleError = () => setIsPlaying(false);
 
-    // handle song changes
+        audio.addEventListener("play", handlePlay);
+        audio.addEventListener("pause", handlePause);
+        audio.addEventListener("error", handleError);
+
+        return () => {
+            audio.removeEventListener("play", handlePlay);
+            audio.removeEventListener("pause", handlePause);
+            audio.removeEventListener("error", handleError);
+        };
+    }, [setIsPlaying]);
+
     useEffect(() => {
-        if (!audioRef.current || !currentSong) return
-        const audio = audioRef.current
-        const isSongChange = prevSong.current !== currentSong?.audioUrl
-        if (isSongChange) {
-            audio.src = currentSong?.audioUrl
-            audio.currentTime = 0
-            prevSong.current = currentSong?.audioUrl
-            if (isPlaying) audio.play()
+        const audio = audioRef.current;
+        if (!audio) return;
+
+        if (isPlaying) {
+            audio.play().catch((err) => {
+                console.warn("playback error:", err);
+                setIsPlaying(false)
+            });
+        } else {
+            audio.pause();
         }
-    }, [currentSong, isPlaying])
+    }, [isPlaying]);
 
-    return <audio ref={audioRef} />
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio || !currentSong) return;
+
+        const isNewSong = prevSong.current !== currentSong.audioUrl;
+
+        if (isNewSong) {
+            audio.src = currentSong.audioUrl;
+            audio.currentTime = 0;
+            prevSong.current = currentSong.audioUrl;
+
+            const handleCanPlay = () => {
+                if (isPlaying) {
+                    audio.play().catch(err => {
+                        console.warn("autoplay error:", err);
+                        setIsPlaying(false);
+                    });
+                }
+            };
+
+            audio.addEventListener("canplay", handleCanPlay);
+            return () => audio.removeEventListener("canplay", handleCanPlay);
+        }
+    }, [currentSong, isPlaying]);
+
+    return <audio ref={audioRef} preload="auto" />;
 }

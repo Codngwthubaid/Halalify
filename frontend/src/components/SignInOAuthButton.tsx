@@ -1,8 +1,8 @@
 import { useSignIn } from "@clerk/clerk-react";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
-export default function SignInOAuthButton() {
-
+export default function SignInOAuthButton(props: any) {
     const { signIn, isLoaded } = useSignIn();
     if (!isLoaded) return null;
 
@@ -15,6 +15,14 @@ export default function SignInOAuthButton() {
     };
 
     return (
-        <Button onClick={signInWithGoogle} variant={"secondary"} className="w-full text-white border-zinc-200 p-4 cursor-pointer">Continue with Google</Button>
-    )
+        <Button
+            onClick={signInWithGoogle}
+            variant={"secondary"}
+            className={cn(
+                "w-full text-white border-zinc-200 p-4 cursor-pointer",
+            )}
+        >
+            {props.title}
+        </Button>
+    );
 }

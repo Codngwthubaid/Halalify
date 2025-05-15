@@ -11,10 +11,10 @@ const formatTime = (time: number) => {
 };
 
 export default function PlayControls() {
-    const [isVolume, setIsVolume] = useState(75); // Tracks the actual volume level
-    const [isMuted, setIsMuted] = useState(false); // Tracks mute state
-    const [prevVolume, setPrevVolume] = useState(75); // Stores volume before muting
-    const [isDuration, setIsDuration] = useState(0);
+    const [isVolume, setIsVolume] = useState(75)
+    const [isMuted, setIsMuted] = useState(false)
+    const [prevVolume, setPrevVolume] = useState(75)
+    const [isDuration, setIsDuration] = useState(0)
     const [isCurrentTime, setIsCurrentTime] = useState(0);
     const { currentSong, togglePlay, isPlaying, playNext, playPrevious } = usePlayerStore();
 
@@ -33,7 +33,6 @@ export default function PlayControls() {
         audio.addEventListener("loadedmetadata", updateDuration);
         audio.addEventListener("ended", handleEnded);
 
-        // Set initial volume
         audio.volume = isVolume / 100;
 
         return () => {
@@ -50,12 +49,10 @@ export default function PlayControls() {
     const handleMuteToggle = () => {
         if (audioRef.current) {
             if (!isMuted) {
-                // Mute: Store current volume and mute audio
                 setPrevVolume(isVolume);
                 audioRef.current.muted = true;
                 setIsMuted(true);
             } else {
-                // Unmute: Restore previous volume
                 audioRef.current.muted = false;
                 setIsVolume(prevVolume);
                 audioRef.current.volume = prevVolume / 100;
@@ -66,14 +63,14 @@ export default function PlayControls() {
 
     return (
         <footer className='h-20 sm:h-24 bg-zinc-900 border-t w-full border-zinc-800 px-4'>
-            <div className='flex justify-between items-center h-full mx-auto'>
-                <div className='hidden sm:flex items-center gap-4 min-w-[180px] w-[30%]'>
+            <div className='flex justify-between items-center w-full h-full mx-auto'>
+                <div className='sm:flex items-center gap-4 w-1/2 sm:min-w-[180px] sm:w-[30%]'>
                     {currentSong && (
-                        <>
+                        <div className="flex items-center gap-4">
                             <img
                                 src={currentSong.imageUrl}
                                 alt={currentSong.title}
-                                className='w-14 h-14 object-cover rounded-md'
+                                className='size-10 sm:ize-14 object-cover rounded-md'
                             />
                             <div className='flex-1 min-w-0'>
                                 <div className='font-medium truncate hover:underline cursor-pointer'>
@@ -83,11 +80,11 @@ export default function PlayControls() {
                                     {currentSong.artist}
                                 </div>
                             </div>
-                        </>
+                        </div>
                     )}
                 </div>
 
-                <div className='flex flex-col items-center gap-2 flex-1 max-w-full sm:max-w-[45%]'>
+                <div className='flex flex-col items-center gap-2 flex-1 w-1/2 sm:max-w-[45%]'>
                     <div className='flex items-center gap-4 sm:gap-6'>
                         <Button
                             size='icon'
@@ -143,7 +140,7 @@ export default function PlayControls() {
                         </Button>
 
                         <Slider
-                            value={isMuted ? [0] : [isVolume]} // Show 0 when muted
+                            value={isMuted ? [0] : [isVolume]}
                             max={100}
                             step={1}
                             className='w-24 hover:cursor-grab active:cursor-grabbing'
@@ -151,8 +148,8 @@ export default function PlayControls() {
                                 setIsVolume(value[0]);
                                 if (audioRef.current) {
                                     audioRef.current.volume = value[0] / 100;
-                                    audioRef.current.muted = false; // Unmute when slider changes
-                                    setIsMuted(false); // Update mute state
+                                    audioRef.current.muted = false;
+                                    setIsMuted(false); 
                                 }
                             }}
                         />

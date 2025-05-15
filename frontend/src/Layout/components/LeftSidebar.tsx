@@ -1,14 +1,15 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Album, LibraryBigIcon, Music } from "lucide-react"; // Added Music, User icons
+import { Album, LibraryBigIcon, LogInIcon, Music } from "lucide-react"; // Added Music, User icons
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"; // Added Dialog components
 import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { useEffect, useState } from "react";
-import { UserButton } from "@clerk/clerk-react";
-import PlayButton from "@/pages/home/components/playButton";
+import { SignedOut, UserButton } from "@clerk/clerk-react";
+import Playbutton from "@/pages/home/components/playButton";
+import SignInOAuthbutton from "@/components/SignInOAuthButton";
 
 export default function LeftSidebar() {
     const { albums, isLoading, fetchAlbums, songs, fetchSongs } = useMusicStore();
@@ -35,16 +36,20 @@ export default function LeftSidebar() {
                             <Album className="size-6 mr-2" />
                             <span>Album</span>
                         </Link>
-                    </div>
+                </div>
                     <div className="sm:hidden block">
-                        <Button
+                        <div
                             className={cn(
                                 buttonVariants({ variant: "ghost" }),
                                 "flex items-center gap-2 hover:bg-zinc-800 w-full cursor-pointer"
                             )}
                         >
+                            <SignedOut>
+                                <SignInOAuthbutton title={<LogInIcon />} />
+                            </SignedOut>
+
                             <UserButton />
-                        </Button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,14 +96,14 @@ export default function LeftSidebar() {
                     <div className="sm:hidden flex flex-col gap-4">
                         <Dialog open={isAlbumDialogOpen} onOpenChange={setIsAlbumDialogOpen}>
                             <DialogTrigger asChild>
-                                <Button
+                                <button
                                     className={cn(
                                         buttonVariants({ variant: "ghost" }),
                                         "flex items-center gap-2 hover:bg-zinc-800 cursor-pointer"
                                     )}
                                 >
                                     <Album className="size-6" />
-                                </Button>
+                                </button>
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
@@ -136,14 +141,14 @@ export default function LeftSidebar() {
 
                         <Dialog open={isSongDialogOpen} onOpenChange={setIsSongDialogOpen}>
                             <DialogTrigger asChild>
-                                <Button
+                                <button
                                     className={cn(
                                         buttonVariants({ variant: "ghost" }),
                                         "flex items-center gap-2 hover:bg-zinc-800 cursor-pointer"
                                     )}
                                 >
                                     <Music className="size-6" />
-                                </Button>
+                                </button>
                             </DialogTrigger>
                             <DialogContent>
                                 <DialogHeader>
@@ -172,7 +177,7 @@ export default function LeftSidebar() {
                                                         </p>
                                                     </div>
                                                     <div className="absolute left-3 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                        <PlayButton song={song} />
+                                                        <Playbutton song={song} />
                                                     </div>
                                                 </div>
                                             ))

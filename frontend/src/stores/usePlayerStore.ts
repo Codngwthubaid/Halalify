@@ -14,6 +14,7 @@ interface PlayerStore {
     playNext: () => void;
     playPrevious: () => void;
     togglePlay: () => void;
+    setIsPlaying: (playing: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set, get) => ({
@@ -22,6 +23,7 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
     currentIndex: -1,
     queue: [],
 
+    setIsPlaying: (playing: boolean) => set({ isPlaying: playing }),
     initQueue: (songs) => set(
         { queue: songs, currentIndex: get().currentIndex === -1 ? 0 : get().currentIndex, currentSong: get().currentSong || songs[0], isPlaying: true }
     ),

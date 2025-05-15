@@ -20,7 +20,7 @@ export default function Topbar() {
                 )}
 
                 <SignedOut>
-                    <SignInOAuthButton />
+                    <SignInOAuthButton title="Continue with Google" />
                 </SignedOut>
 
                 <UserButton />
