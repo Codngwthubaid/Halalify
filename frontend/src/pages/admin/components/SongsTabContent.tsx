@@ -7,7 +7,7 @@ export default function SongsTabContent() {
 	return (
 		<Card>
 			<CardHeader>
-				<div className='flex items-center justify-between'>
+				<div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
 					<div>
 						<CardTitle className='flex items-center gap-2'>
 							<Music className='size-5 text-purple-500' />

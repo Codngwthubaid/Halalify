@@ -1,6 +1,7 @@
 import GridSelectionLayoutSkeletonForSongs from "@/components/skeletons/gridSelectionLayoutSkeletonForSongs";
 import { Songs } from "@/types";
 import PlayButton from "./playButton";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 type GridSelectionLayoutProps = {
     title: string;
@@ -9,8 +10,17 @@ type GridSelectionLayoutProps = {
 };
 
 export default function GridSelectionLayoutForSongs({ title, isLoading, songs = [] }: GridSelectionLayoutProps) {
+
+    const { togglePlay, currentSong, setCurrentSong } = usePlayerStore()
+
     if (isLoading) return <GridSelectionLayoutSkeletonForSongs />;
     const songsArray = Array.isArray(songs) ? songs : [];
+
+    const handlePlay = (song: Songs) => {
+        const isCurrentSong = currentSong?._id === song._id
+        if (isCurrentSong) togglePlay()
+        else setCurrentSong(song)
+    }
 
     return (
         <div className='mt-8'>
@@ -26,6 +36,7 @@ export default function GridSelectionLayoutForSongs({ title, isLoading, songs = 
                         <div
                             key={song._id}
                             className='bg-zinc-800/40 p-2 rounded-md hover:bg-zinc-700/40 transition-all group cursor-pointer'
+                            onClick={() => handlePlay(song)}
                         >
                             <div className='relative mb-4'>
                                 <div className='aspect-square rounded-md shadow-lg overflow-hidden'>

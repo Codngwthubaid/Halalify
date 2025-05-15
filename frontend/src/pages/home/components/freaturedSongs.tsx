@@ -6,12 +6,12 @@ import { Songs } from "@/types"
 
 export default function FeaturedSongs() {
     const { isLoading, error, featuredSongs } = useMusicStore()
-    const { togglePlay, currentSong, setCurrentSong } = usePlayerStore() // Get player store functions
+    const { togglePlay, currentSong, setCurrentSong } = usePlayerStore() 
 
     if (isLoading) return <FeaturedSkeleton />
     if (error) return <div className="text Wred-500">{error}</div>
 
-    // Define handlePlay function for the div click
+
     const handlePlay = (song:Songs) => {
         const isCurrentSong = currentSong?._id === song._id
         if (isCurrentSong) togglePlay()
