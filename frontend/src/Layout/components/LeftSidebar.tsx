@@ -1,6 +1,6 @@
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Album, LibraryBigIcon, LogInIcon, Music } from "lucide-react"; // Added Music, User icons
+import { Album, Home, LibraryBigIcon, LogInIcon, Music } from "lucide-react"; // Added Music, User icons
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"; // Added Dialog components
@@ -36,7 +36,7 @@ export default function LeftSidebar() {
                             <Album className="size-6 mr-2" />
                             <span>Album</span>
                         </Link>
-                </div>
+                    </div>
                     <div className="sm:hidden block">
                         <div
                             className={cn(
@@ -94,6 +94,13 @@ export default function LeftSidebar() {
                     </div>
 
                     <div className="sm:hidden flex flex-col gap-4">
+
+                        <Button>
+                            <Link to="/" className="flex items-center gap-2 hover:bg-zinc-800 cursor-pointer">
+                                <Home className="size-6" />
+                            </Link>
+                        </Button>
+
                         <Dialog open={isAlbumDialogOpen} onOpenChange={setIsAlbumDialogOpen}>
                             <DialogTrigger asChild>
                                 <button
