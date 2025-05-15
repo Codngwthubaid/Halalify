@@ -1,9 +1,9 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Album, Home, LibraryBigIcon, LogInIcon, Music } from "lucide-react"; // Added Music, User icons
+import { Album, Home, LibraryBigIcon, LogInIcon, Music } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"; // Added Dialog components
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { useEffect, useState } from "react";
@@ -40,12 +40,12 @@ export default function LeftSidebar() {
                     <div className="sm:hidden block">
                         <div
                             className={cn(
-                                buttonVariants({ variant: "ghost" }),
-                                "flex items-center gap-2 hover:bg-zinc-800 w-full cursor-pointer"
+                                buttonVariants({ variant: "secondary" }),
+                                "hover:bg-zinc-800 w-full cursor-pointer"
                             )}
                         >
                             <SignedOut>
-                                <SignInOAuthbutton title={<LogInIcon />} />
+                                <SignInOAuthbutton title={<LogInIcon className="size-6" />} />
                             </SignedOut>
 
                             <UserButton />

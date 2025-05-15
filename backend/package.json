@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "node --watch src/index.js",
     "seeds:songs": "node src/seeds/songs.js",
     "seeds:albums": "node src/seeds/albums.js"
   },
@@ -21,8 +21,5 @@
     "express-fileupload": "^1.5.1",
     "mongoose": "^8.13.2",
     "socket.io": "^4.8.1"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
   }
 }

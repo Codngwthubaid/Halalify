@@ -5,6 +5,7 @@ import FeaturedSongs from "./components/freaturedSongs"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import GridSelectionLayoutForSongs from "./components/gridSelectionLayoutForSongs"
 import { usePlayerStore } from "@/stores/usePlayerStore"
+import Logo from "@/assets/Halalify.svg"
 
 export default function HomePage() {
 
@@ -37,7 +38,10 @@ export default function HomePage() {
 
       <ScrollArea className="h-[calc(100vh-95px)] sm:h-[calc(100vh-180px)] overflow-auto hideScollbar">
         <div>
-          <h1 className="text-2xl font-bold my-4 sm:text-3xl">{timeCalc()}</h1>
+          <div className="flex justify-between items-center">
+            <img src={Logo} alt="Halalify-Logo" className="sm:hidden p-2 size-12 rounded-full bg-[#7f22fe]" />
+            <h1 className="text-2xl font-bold my-4 sm:text-3xl">{timeCalc()}</h1>
+          </div>
           <FeaturedSongs />
         </div>
 

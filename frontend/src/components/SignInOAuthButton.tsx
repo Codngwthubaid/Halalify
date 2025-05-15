@@ -20,6 +20,7 @@ export default function SignInOAuthButton(props: any) {
             variant={"secondary"}
             className={cn(
                 "w-full text-white border-zinc-200 p-4 cursor-pointer",
+                props.className
             )}
         >
             {props.title}
