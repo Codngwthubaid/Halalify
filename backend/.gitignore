@@ -1,4 +1,5 @@
 node_modules/ npm-debug.log yarn-error.log
+.pnpm/
 .env .env.\* !.env.example
 logs \*.log *.log.*
 dist/ build/
