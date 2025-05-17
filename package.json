@@ -1,13 +1,13 @@
 {
   "name": "nasheed-player",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd backend && pnpm install && cd ../frontend && pnpm install && pnpm run build",
-    "start": "node backend/index.js"
+    "build": "pnpm install --prefix backend && pnpm install --prefix frontend && pnpm run build --prefix frontend",
+    "start": "pnpm start --prefix backend"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "description": ""
 }
