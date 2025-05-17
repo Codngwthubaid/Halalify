@@ -23,7 +23,7 @@ const PORT = process.env.PORT
 
 
 app.use(cors({
-  origin: "https://halalify-three.vercel.app",
+  origin: "http://localhost:3000",
   credentials: true
 }))
 
