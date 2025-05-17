@@ -5,6 +5,8 @@ import { connectDB } from './lib/db.js'
 import fileUpload from 'express-fileupload'
 import path from 'path'
 import cors from 'cors'
+import cron from "node-cron"
+import fs from 'fs'
 
 import userRoutes from './routes/user.route.js'
 import adminRoutes from './routes/admin.route.js'
@@ -21,7 +23,7 @@ const PORT = process.env.PORT
 
 
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: "http://localhost:3000",
   credentials: true
 }))
 
@@ -38,12 +40,46 @@ app.use(fileUpload(
   }
 ))
 
+
+const tempDirLoc = path.join(__dirname, 'temp')
+
+// cron jobs for deleting temp files in very 1 hr
+cron.schedule('0 * * * *', () => {
+  if (fs.existsSync(tempDirLoc)) {
+    fs.readdir(tempDirLoc, (err, files) => {
+      if (err) {
+        console.log("Error present in cron job", err)
+        return
+      }
+
+      for (const file of files) {
+        fs.unlink(path.join(tempDirLoc, file), (err) => {
+          if (err) {
+            console.log("Error present in cron job", err)
+            return
+          }
+        })
+      }
+    })
+  }
+})
+
+
+
 app.use("/api/users", userRoutes)
 app.use("/api/admin", adminRoutes)
 app.use("/api/auth", authRoutes)
 app.use("/api/songs", songsRoutes)
 app.use("/api/albums", albumsRoutes)
 app.use("/api/stats", statsRoutes)
+
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")))
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "../frontend/dist/index.html"))
+  })
+}
 
 
 app.use((error, req, res, next) => {
