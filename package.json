@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "pnpm install --prefix backend && pnpm install --prefix frontend && cd frontend && pnpm run build",
+    "build": "cd backend && pnpm install && cd ../frontend && pnpm install && pnpm run build",
     "start": "node backend/index.js"
   },
   "keywords": [],
