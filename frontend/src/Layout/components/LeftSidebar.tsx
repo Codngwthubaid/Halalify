@@ -1,6 +1,6 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Album, Home, LibraryBigIcon, LogInIcon, Music } from "lucide-react";
+import { Album, Home, HomeIcon, LayoutDashboard, LibraryBigIcon, LogInIcon, Music } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -33,8 +33,8 @@ export default function LeftSidebar() {
                                 "w-full justify-start hover:bg-zinc-800"
                             )}
                         >
-                            <Album className="size-6 mr-2" />
-                            <span>Album</span>
+                            <HomeIcon className="size-6 mr-2" />
+                            <span>Home</span>
                         </Link>
                     </div>
                     <div className="sm:hidden block">
@@ -98,6 +98,12 @@ export default function LeftSidebar() {
                         <Button>
                             <Link to="/" className="flex items-center gap-2 hover:bg-zinc-800 cursor-pointer">
                                 <Home className="size-6" />
+                            </Link>
+                        </Button>
+              
+                        <Button>
+                            <Link to="/admin" className="flex items-center gap-2 hover:bg-zinc-800 cursor-pointer">
+                             <LayoutDashboard className="size-6" />
                             </Link>
                         </Button>
 

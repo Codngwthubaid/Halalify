@@ -1,11 +1,8 @@
 import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { LibraryBigIcon, Music } from "lucide-react";
+import { LibraryBigIcon } from "lucide-react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import PlayButton from "@/pages/home/components/playButton";
 
 export default function RightSidebar() {
@@ -17,7 +14,7 @@ export default function RightSidebar() {
 
     return (
         <div className="h-full flex flex-col gap-2">
-            <div className="bg-zinc-900 rounded-lg m-3 p-4">
+            {/* <div className="bg-zinc-900 rounded-lg m-3 p-4">
                 <div className="space-y-2">
                     <Link
                         to="/"
@@ -30,9 +27,9 @@ export default function RightSidebar() {
                         <span className="hidden md:block">Nasheeds</span>
                     </Link>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="flex-1 p-4 m-3 mt-0 rounded-lg bg-zinc-900">
+            <div className="flex-1 p-4 m-3 rounded-lg bg-zinc-900">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-2">
                         <LibraryBigIcon className="size-6 mr-2" />
@@ -40,7 +37,7 @@ export default function RightSidebar() {
                     </div>
                 </div>
 
-                <ScrollArea className="h-[calc(100vh-280px)] mt-5 w-full">
+                <ScrollArea className="h-[calc(100vh-190px)] mt-5 w-full">
                     <div className="space-y-1">
                         {isLoading ? (
                             <LoadingSkeleton />
