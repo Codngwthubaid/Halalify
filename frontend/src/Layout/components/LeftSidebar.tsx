@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import LoadingSkeleton from "@/components/skeletons/LoadingSkeleton";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { useEffect, useState } from "react";
-import { SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import Playbutton from "@/pages/home/components/playButton";
 import SignInOAuthbutton from "@/components/SignInOAuthButton";
 
@@ -100,12 +100,14 @@ export default function LeftSidebar() {
                                 <Home className="size-6" />
                             </Link>
                         </Button>
-              
-                        <Button>
-                            <Link to="/admin" className="flex items-center gap-2 hover:bg-zinc-800 cursor-pointer">
-                             <LayoutDashboard className="size-6" />
-                            </Link>
-                        </Button>
+                        
+                        <SignedIn>
+                            <Button>
+                                <Link to="/admin" className="flex items-center gap-2 hover:bg-zinc-800 cursor-pointer">
+                                    <LayoutDashboard className="size-6" />
+                                </Link>
+                            </Button>
+                        </SignedIn>
 
                         <Dialog open={isAlbumDialogOpen} onOpenChange={setIsAlbumDialogOpen}>
                             <DialogTrigger asChild>
